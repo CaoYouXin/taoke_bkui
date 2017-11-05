@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>菜单管理 - 觅券儿系统后台</title>
+
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    #menus {
+      margin-top: 1em;
+    }
+
+    #menus>.row {
+      line-height: 2em;
+    }
+
+    #menus>.row:first-child {
+      border-bottom: solid 1px #282828;
+    }
+
+    #menus>.row:not(:first-child) {
+      line-height: 3em;
+      border-bottom: dashed 1px #282828;
+    }
+
+    #menus>.row .btn {
+      padding: 0 1em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="modal fade menu-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="menu-form">
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" name="id" id="id" placeholder="Input Not Allowed" disabled />
+          </div>
+          <div class="form-group">
+            <label for="name">名称</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" />
+          </div>
+          <div class="form-group">
+            <label for="route">路由</label>
+            <input type="text" class="form-control" name="route" id="route" placeholder="Enter route" />
+          </div>
+          <button type="reset" class="btn btn-secondary">重置</button>
+          <button type="button" class="btn btn-primary" onClick="onSubmitMenu()" data-toggle="modal" data-target=".menu-modal-lg">提交</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <a href="../../">&lt; 返回首页</a>
+    <h1>管理首页菜单</h1>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".menu-modal-lg">添加菜单</button>
+    <div id="menus">
+      <div class="row">
+        <div class="col-sm">ID</div>
+        <div class="col-sm">名称</div>
+        <div class="col-sm">路由</div>
+        <div class="col-sm">操作</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../js/popper.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../js/util.js"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
