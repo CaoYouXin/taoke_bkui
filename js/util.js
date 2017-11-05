@@ -6,7 +6,17 @@ function getJSONfromForm($form) {
     ret[n['name']] = n['value'];
   });
 
+  $.each($form.find('input[disabled]'), (i, dI) => {
+    var $dI = $(dI);
+    ret[$dI.attr('name')] = $dI.val();
+  });
   return ret;
+}
+
+function letJSONtoForm(data, $form) {
+  Object.keys(data).forEach((key) => {
+    $form.find(`input[name="${key}"]`).val(data[key]);
+  });
 }
 
 function getAPI(api) {
@@ -24,10 +34,10 @@ function buildRow(handlers, data, keyIdxArray, specs) {
     array[i] = data[key];
   }
 
-  return buildRowFromArray(handlers, array, specs);
+  return buildRowFromArray(handlers, data, array, specs);
 }
 
-function buildRowFromArray(handlers, array, specs) {
+function buildRowFromArray(handlers, data, array, specs) {
   specs = specs || [];
 
   var row = document.createElement('div');
@@ -63,7 +73,9 @@ function buildRowFromArray(handlers, array, specs) {
     handler.classList.add('btn');
     handler.classList.add('btn-primary');
     handler.setAttribute('type', 'button');
-    handler.onclick = handlerV.handler;
+    handler.onclick = (e) => {
+      handlerV.handler(e, data);
+    };
     handler.innerHTML = handlerV.text;
 
     handlerG.appendChild(handler);
@@ -127,7 +139,7 @@ function get(api) {
       url: getAPI(api),
       type: 'GET',
       headers: {
-        'auth': token
+        'auth': ut.token.token
       },
       contentType: 'application/json; charset=utf-8'
     }).fail(ajaxOnFail);
@@ -143,7 +155,7 @@ function post(api, data) {
       url: getAPI(api),
       type: 'POST',
       headers: {
-        'auth': token
+        'auth': ut.token.token
       },
       contentType: 'application/json; charset=utf-8',
       data: JSON.stringify(data)
