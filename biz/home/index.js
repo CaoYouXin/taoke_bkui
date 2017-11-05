@@ -45,7 +45,7 @@ function onSubmit() {
   post(getSubmitAPI(submitData.locationType), submitData)
     .done(responseMapper((data) => {
 
-      renderOne(!!submitData.id, data);
+      renderOne(!submitData.id, data);
     }));
 }
 
@@ -81,10 +81,9 @@ function renderOne(isNew, data) {
   var rowElem = buildRow(handlers, data, ["id", "name", "imgUrl", "locationType", "order", "openType", "ext"], renders);
 
   if (!isNew) {
-    table.appendChild(rowElem);
+    table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
   } else {
-    var oldElem = findOne(table, 0, data.id + '');
-    table.replaceChild(rowElem, oldElem);
+    table.appendChild(rowElem);
   }
 }
 

@@ -12,9 +12,9 @@ function renderOne(isNew, data) {
 
   var rowElem = buildRow(handlers, data, ["id", "name", "route"], renders);
   if (!isNew) {
-    table.appendChild(rowElem);
-  } else {
     table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
+  } else {
+    table.appendChild(rowElem);
   }
 }
 
@@ -35,7 +35,7 @@ function flushMenus(isNew, data) {
 
   } else {
 
-    ut.admin.role.menus[ut.admin.role.menus.length] = data;
+    ut.admin.role.menus.push(data);
 
   }
 
@@ -53,7 +53,8 @@ function onSubmitMenu() {
   post(getMenuSubmitAPI(submitData), submitData)
     .done(responseMapper((data) => {
 
-      renderOne(submitData.id, data);
+      renderOne(!submitData.id, data);
+      flushMenus(!submitData.id, data);
     }));
 }
 
