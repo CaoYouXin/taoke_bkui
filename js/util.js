@@ -88,7 +88,7 @@ function ajaxOnFail(error) {
 function responseFilter(response) {
   if (response.code !== 2000) {
     console.log(response.body);
-    alert("Server Code Error, Open 控制台 to see more infomation.");
+    alert(`Server Code Error, Open 控制台 to see more infomation.\n${response.body.msg}`);
     return {
       done: () => { }
     };
@@ -99,4 +99,56 @@ function responseFilter(response) {
       handler(response.body);
     }
   };
+}
+
+function responseMapper(handler) {
+  return function (response, status) {
+    console.log("Data: ", response, "\nStatus: ", status);
+
+    if (response.code !== 2000) {
+      console.log(response.body);
+      alert(`Server Code Error, Open 控制台 to see more infomation.\n${response.body.msg}`);
+      return;
+    }
+
+    handler(response.body);
+  }
+}
+
+function getUserToken() {
+  var userTokenJSON = localStorage.getItem('user') || "{}";
+  return JSON.parse(userTokenJSON);
+}
+
+function get(api) {
+  var ut = getUserToken();
+  if (ut.token) {
+    return $.ajax({
+      url: getAPI(api),
+      type: 'GET',
+      headers: {
+        'auth': token
+      },
+      contentType: 'application/json; charset=utf-8'
+    }).fail(ajaxOnFail);
+  } else {
+    return $.get(getAPI(api)).fail(ajaxOnFail);
+  }
+}
+
+function post(api, data) {
+  var ut = getUserToken();
+  if (ut.token) {
+    return $.ajax({
+      url: getAPI(api),
+      type: 'POST',
+      headers: {
+        'auth': token
+      },
+      contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify(data)
+    }).fail(ajaxOnFail);
+  } else {
+    return $.post(getAPI(api), data).fail(ajaxOnFail);
+  }
 }

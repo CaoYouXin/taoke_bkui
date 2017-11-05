@@ -1,3 +1,18 @@
+function renderOne(isNew, data) {
+  var table = document.getElementById("menus");
+
+  var handlers = [{
+    text: '修改',
+    handler: onChangeMenu
+  }];
+
+  var renders = [null, null, {
+    // innerHTML: renderRoute
+  }];
+
+
+}
+
 function onSubmitMenu() {
   var SubmitData = getJSONfromForm($('#menu-form'));
 
