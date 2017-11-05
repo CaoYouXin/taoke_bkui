@@ -16,6 +16,7 @@ function getJSONfromForm($form) {
 function letJSONtoForm(data, $form) {
   Object.keys(data).forEach((key) => {
     $form.find(`input[name="${key}"]`).val(data[key]);
+    $form.find(`textarea[name="${key}"]`).val(data[key]);
   });
 }
 
@@ -163,4 +164,34 @@ function post(api, data) {
   } else {
     return $.post(getAPI(api), data).fail(ajaxOnFail);
   }
+}
+
+function upload($form) {
+  var ut = getUserToken();
+  if (!ut.token) {
+    return;
+  }
+
+  return $.ajax({
+    url: getAPI("/uploadFile"),
+    type: "POST",
+    headers: {
+      'auth': ut.token.token
+    },
+    data: new FormData($form[0]),
+    enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false,
+    cache: false
+  }).fail(ajaxOnFail);
+}
+
+function findOne(table, idx, keyData) {
+  for (var i = 0; i < table.childElementCount; i++) {
+    var row = table.childNodes[i];
+    if (row.childNodes[idx].innerHTML === keyData) {
+      return row;
+    }
+  }
+  return null;
 }

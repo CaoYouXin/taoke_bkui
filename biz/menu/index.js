@@ -14,36 +14,45 @@ function renderOne(isNew, data) {
   if (!isNew) {
     table.appendChild(rowElem);
   } else {
-    table.replaceChild(rowElem, findOne(table, data));
+    table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
   }
 }
 
-function findOne(table, data) {
-  for (var i = 0; i < table.childElementCount; i++) {
-    var row = table.childNodes[i];
-    if (row.childNodes[0].innerHTML === data.id + '') {
-      return row;
-    }
+function flushMenus(isNew, data) {
+  var ut = getUserToken();
+  if (!ut.admin) {
+    return;
   }
-  return null;
+
+  if (!isNew) {
+
+    ut.admin.role.menus = ut.admin.role.menus.map(m => {
+      if (m.id === data.id) {
+        return data;
+      }
+      return m;
+    });
+
+  } else {
+
+    ut.admin.role.menus[ut.admin.role.menus.length] = data;
+
+  }
+
+  localStorage.setItem('user', JSON.stringify(ut));
 }
 
 function onSubmitMenu() {
   var submitData = getJSONfromForm($('#menu-form'));
-  submitData.id = Number(submitData.id);
-
+  if (submitData.id) {
+    submitData.id = Number(submitData.id);
+  } else {
+    delete submitData.id;
+  }
+  console.log(submitData);
   post(getMenuSubmitAPI(submitData), submitData)
     .done(responseMapper((data) => {
-      var ut = getUserToken();
-      if (ut.admin) {
-        ut.admin.role.menus = ut.admin.role.menus.map(m => {
-          if (m.id === data.id) {
-            return data;
-          }
-          return m;
-        });
-        localStorage.setItem('user', JSON.stringify(ut));
-      }
+
       renderOne(submitData.id, data);
     }));
 }
