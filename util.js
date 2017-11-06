@@ -90,8 +90,7 @@ function buildRowFromArray(handlers, data, array, specs) {
 
 function ajaxOnFail(error) {
   if (401 === error.status) {
-    console.log("go to login");
-    return;
+    console.log("http level not authed");
   }
 
   console.log(error);
@@ -118,13 +117,24 @@ function responseMapper(handler) {
   return function (response, status) {
     console.log("Data: ", response, "\nStatus: ", status);
 
-    if (response.code !== 2000) {
-      console.log(response.body);
-      alert(`Server Code Error, Open 控制台 to see more infomation.\n${response.body.msg}`);
+    if (response.code === 2000) {
+      handler(response.body);
       return;
     }
 
-    handler(response.body);
+    if (response.code === 4010) {
+      alert('需要登录');
+      location.href = '/';
+      return;
+    }
+
+    if (response.code === 4011) {
+      alert('需要相应的管理员权限');
+      return;
+    }
+
+    console.log(response.body);
+    alert(`Server Code Error, Open 控制台 to see more infomation.\n${response.body.msg}`);
   }
 }
 
