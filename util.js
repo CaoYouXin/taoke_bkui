@@ -15,13 +15,20 @@ function getJSONfromForm($form) {
 
 function letJSONtoForm(data, $form) {
   Object.keys(data).forEach((key) => {
-    $form.find(`input[name="${key}"]`).val(data[key]);
-    $form.find(`textarea[name="${key}"]`).val(data[key]);
+    var input = $form.find(`input[name="${key}"]`);
+    if (input.length) {
+      input.val(data[key]);
+    }
+
+    var textarea = $form.find(`textarea[name="${key}"]`);
+    if (textarea.length) {
+      textarea.val(data[key]);
+    }
   });
 }
 
 function getAPI(api) {
-  return "http://localhost:8090" + api;
+  return "http://127.0.0.1:8090" + api;
 }
 
 function buildRow(handlers, data, keyIdxArray, specs) {
