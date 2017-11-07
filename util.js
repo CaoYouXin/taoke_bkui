@@ -28,7 +28,8 @@ function letJSONtoForm(data, $form) {
 }
 
 function getAPI(api) {
-  return "http://127.0.0.1:8090" + api;
+  // return "http://127.0.0.1:8090" + api;
+  return "http://120.78.194.198:8080/api" + api;
 }
 
 function buildRow(handlers, data, keyIdxArray, specs) {
