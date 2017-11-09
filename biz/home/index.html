@@ -22,21 +22,23 @@
       margin-top: 1em;
     }
 
-    #btns>.row {
+    .row {
       line-height: 2em;
     }
 
-    #btns>.row:first-child {
+    .row .btn {
+      padding: 0 1em;
+    }
+
+    #btns>.row:first-child,
+    #favs>.row:first-child {
       border-bottom: solid 1px #282828;
     }
 
-    #btns>.row:not(:first-child) {
+    #btns>.row:not(:first-child),
+    #favs>.row:not(:first-child) {
       line-height: 3em;
       border-bottom: dashed 1px #282828;
-    }
-
-    #btns>.row .btn {
-      padding: 0 1em;
     }
 
     .form-group>button {
@@ -97,7 +99,7 @@
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="#" onClick="onOpenTypeBtn('APP内打开', 1)">APP内打开</a>
                 <a class="dropdown-item" href="#" onClick="onOpenTypeBtn('浏览器打开', 1 << 1)">浏览器打开</a>
-                <a class="dropdown-item" href="#" onClick="onOpenTypeBtn('瀑布流代开', 1 << 2)">瀑布流代开</a>
+                <a class="dropdown-item" href="#" onClick="onOpenTypeBtn('瀑布流打开', 1 << 2)">瀑布流打开</a>
               </div>
             </div>
             <input id="openType" type="text" class="form-control" name="openType" placeholder="Enter openType" hidden />
@@ -127,6 +129,16 @@
         <div class="col-sm">打开方式</div>
         <div class="col-sm">额外信息</div>
         <div class="col-sm">操作</div>
+      </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div id="favs">
+      <div class="row">
+        <div class="col-sm">FavoriteID</div>
+        <div class="col-sm">名称</div>
+        <div class="col-sm">类型</div>
       </div>
     </div>
   </div>

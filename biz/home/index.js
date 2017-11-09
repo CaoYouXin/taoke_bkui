@@ -95,7 +95,7 @@ function onChangeHomeBtn(e, data) {
 }
 
 function renderImgUrl(text) {
-  return `<img src="http://192.168.0.104:5001/${text}" alt="no uploaded image" />`;
+  return `<img src="http://127.0.0.1:8070/${text}" alt="no uploaded image" />`;
 }
 
 function renderLocationType(text) {
@@ -118,7 +118,7 @@ function renderOpenType(text) {
     case 2:
       return '浏览器打开';
     case 4:
-      return '瀑布流代开';
+      return '瀑布流打开';
     default:
       return 'null';
   }
@@ -149,6 +149,29 @@ function renderAll(data) {
   });
 }
 
+function renderTable2(data) {
+  var table = document.getElementById("favs");
+  var tableTitle = table.firstElementChild.cloneNode(true);
+  table.innerHTML = "";
+  table.appendChild(tableTitle);
+
+  var renders = [null, null, {
+    innerHTML: (type) => {
+      switch (type) {
+        case 1: return '普通选品';
+        case 2: return '高佣选品组';
+        default: throw new Error('unkonwn type');
+      }
+    }
+  }];
+
+  data.forEach(function (rowData) {
+    var rowElem = buildRow([], rowData, ["favoritesId", "favoritesTitle", "type"], renders);
+    table.appendChild(rowElem);
+  });
+}
+
 (function () {
   get('/home/btn/list').done(responseMapper(renderAll));
+  get('/tbk/fav/list/1').done(responseMapper(renderTable2));
 })();
