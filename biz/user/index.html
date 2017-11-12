@@ -55,9 +55,6 @@
 </head>
 
 <body>
-  <form id="uploader">
-    <input id="fileUploader" type="file" name="uploadFiles" accept="image/*" onChange="onFileUploaderChange()" hidden />
-  </form>
   <div class="modal fade table-modal-lg" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -135,6 +132,7 @@
           </span>
         </div>
       </div>
+      <button type="button" class="btn btn-light">上一级</button>
       <button type="button" class="btn btn-dark float-right">导出Excel</button>
       <span class="badge badge-info float-right"></span>
     </section>

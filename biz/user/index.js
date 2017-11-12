@@ -14,15 +14,26 @@ function onTopCateClicked(e) {
   $(`section[data-rel=${dataRel}]`).removeClass('d-none');
 
   location.hash = dataRel;
-  loadUserList(dataRel, 1);
+  loadUserList(dataRel, 1, true);
 }
 
-function loadUserList(dataRel, page) {
+function loadUserList(dataRel, page, init) {
   var end = location.hash.indexOf('p');
   location.hash = location.hash.substring(0, end !== -1 ? end : location.hash.length) + 'p' + page;
   switch (dataRel) {
     case '1':
       get(`/admin/manage/user/list/${page}`).done(responseMapper(renderAll));
+      break;
+    case '2':
+      if (init) {
+        renderAll({
+          first: true,
+          last: true,
+          content: [],
+          totalElements: 0,
+          totalPages: 0
+        });
+      }
       break;
   }
 }
