@@ -6,7 +6,7 @@ function onSubmit() {
     submitData.id = Number(submitData.id);
   }
 
-  post('/app/help/set', submitData)
+  post('/msg/send/2/all', submitData)
     .done(responseMapper((data) => {
 
       renderOne(!submitData.id, data);
@@ -16,14 +16,9 @@ function onSubmit() {
 function renderOne(isNew, data) {
   var table = document.getElementById("table");
 
-  var handlers = [{
-    text: '修改',
-    handler: onChange
-  }];
-
   var renders = [];
 
-  var rowElem = buildRow(handlers, data, ["id", "question", "answer"], renders);
+  var rowElem = buildRow(null, data, ["id", "title", "content"], renders);
 
   if (!isNew) {
     table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
@@ -43,19 +38,14 @@ function renderAll(data) {
   table.innerHTML = "";
   table.appendChild(tableTitle);
 
-  var handlers = [{
-    text: '修改',
-    handler: onChange
-  }];
-
   var renders = [];
 
   data.forEach(function (rowData) {
-    var rowElem = buildRow(handlers, rowData, ["id", "question", "answer"], renders);
+    var rowElem = buildRow(null, rowData, ["id", "title", "content"], renders);
     table.appendChild(rowElem);
   });
 }
 
 (function () {
-  get('/app/help/list').done(responseMapper(renderAll));
+  get('/msg/send/2/all/read').done(responseMapper(renderAll));
 })();
