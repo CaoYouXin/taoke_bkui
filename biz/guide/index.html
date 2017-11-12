@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>新手引导管理 - 觅券儿系统后台</title>
+
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .row>.col-sm {
+      overflow: hidden;
+    }
+
+    .row>.col-sm>img {
+      width: 100%;
+    }
+
+    #table {
+      margin-top: 1em;
+    }
+
+    #table>.row {
+      line-height: 2em;
+    }
+
+    #table>.row:first-child {
+      border-bottom: solid 1px #282828;
+    }
+
+    #table>.row:not(:first-child) {
+      line-height: 3em;
+      border-bottom: dashed 1px #282828;
+    }
+
+    #table>.row .btn {
+      padding: 0 1em;
+    }
+
+    .form-group>button {
+      margin-top: 1em;
+    }
+
+    .form-group.hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="uploader">
+    <input id="fileUploader" type="file" name="uploadFiles" accept="image/*" onChange="onFileUploaderChange()" hidden />
+  </form>
+  <div class="modal fade table-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="table-form">
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" name="id" placeholder="Input Not Allowed" disabled />
+          </div>
+          <div class="form-group">
+            <label for="imgUrl">图片</label>
+            <input id="imgUrl" type="text" class="form-control" name="imgUrl" placeholder="Enter imgUrl" />
+            <button type="button" class="btn btn-secondary" onClick="openFileUploader()">本地上传</button>
+          </div>
+          <div class="form-group">
+            <label for="order">顺序</label>
+            <input type="number" class="form-control" name="order" placeholder="Enter order" />
+          </div>
+          <button type="reset" class="btn btn-secondary">重置</button>
+          <button type="button" class="btn btn-primary" onClick="onSubmit()" data-toggle="modal" data-target=".table-modal-lg">提交</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <a href="../../">&lt; 返回首页</a>
+    <h1>APP好券分类管理</h1>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".table-modal-lg">添加引导图片</button>
+    <div id="table">
+      <div class="row">
+        <div class="col-sm">ID</div>
+        <div class="col-sm">图片</div>
+        <div class="col-sm">排序</div>
+        <div class="col-sm">操作</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../js/popper.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../util.js"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
