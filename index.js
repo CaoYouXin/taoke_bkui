@@ -72,6 +72,11 @@ function flushMenus() {
   });
 
   if (row) {
+    for (var i = 0; i < 3 - row.childNodes.length; i++) {
+      var cell = document.createElement('div');
+      cell.classList.add('col-sm');
+      row.appendChild(cell);
+    }
     menuTable.appendChild(row);
   }
 }
