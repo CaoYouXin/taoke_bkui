@@ -40,24 +40,28 @@ function buildRow(handlers, data, keyIdxArray, specs) {
   var array = [];
   for (var i = 0; i < keyIdxArray.length; i++) {
     var key = keyIdxArray[i];
-    array[i] = data[key];
+    var obj = {};
+    obj.value = data[key];
+    obj.width = 'col-sm';
+    array[i] = obj;
   }
 
-  return buildRowFromArray(handlers, data, array, specs);
+  return buildRowFromArray(handlers, data, array, specs, 'col-sm');
 }
 
-function buildRowFromArray(handlers, data, array, specs) {
+function buildRowFromArray(handlers, data, array, specs, handlerWidth) {
   specs = specs || [];
 
   var row = document.createElement('div');
   row.classList.add('row');
 
   for (var i = 0; i < array.length; i++) {
-    var cell = document.createElement('div');
-    cell.classList.add('col-sm');
-
     var content = array[i];
-    cell.innerHTML = content;
+
+    var cell = document.createElement('div');
+    cell.classList.add(content.width);
+
+    cell.innerHTML = content.value;
 
     var spec = specs[i] || {};
     Object.keys(spec).forEach(function (specK) {
@@ -73,7 +77,7 @@ function buildRowFromArray(handlers, data, array, specs) {
   }
 
   var lastCell = document.createElement('div');
-  lastCell.classList.add('col-sm');
+  lastCell.classList.add(handlerWidth);
 
   var handlerG = document.createElement('div');
   handlerG.classList.add('btn-group');
