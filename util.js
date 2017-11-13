@@ -66,7 +66,7 @@ function buildRowFromArray(handlers, data, array, specs, handlerWidth) {
     var spec = specs[i] || {};
     Object.keys(spec).forEach(function (specK) {
       var specV = spec[specK];
-      cell[specK] = spec[specK] instanceof Function ? spec[specK](content) : spec[specK];
+      cell[specK] = spec[specK] instanceof Function ? spec[specK](content.value) : spec[specK];
     });
 
     row.appendChild(cell);
