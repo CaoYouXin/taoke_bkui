@@ -44,7 +44,7 @@ function onSubmit() {
 
   post(getSubmitAPI(submitData.locationType), submitData)
     .done(responseMapper((data) => {
-
+      clearForm($('#homeBtn-form'));
       renderOne(!submitData.id, data);
     }));
 }

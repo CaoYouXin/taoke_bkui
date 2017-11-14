@@ -27,6 +27,11 @@ function letJSONtoForm(data, $form) {
   });
 }
 
+function clearForm($form) {
+  $form.find('input').val('');
+  $form.find('textarea').val('');
+}
+
 function getAPI(api) {
   return "http://127.0.0.1:8080/api" + api;
   // return "http://120.78.194.198:8080/api" + api;
