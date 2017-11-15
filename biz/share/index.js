@@ -34,7 +34,7 @@ function onSubmit() {
 }
 
 function renderImgUrl(text) {
-  return `<img src="http://127.0.0.1:8070/${text}" alt="no uploaded image" />`;
+  return `<img src="${getCDN(text)}" alt="no uploaded image" />`;
 }
 
 function renderOne(isNew, data) {
