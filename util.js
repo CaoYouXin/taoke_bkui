@@ -33,13 +33,17 @@ function clearForm($form) {
 }
 
 function getAPI(api) {
-  // return "http://127.0.0.1:8080/api" + api;
-  return "http://server.tkmqr.com:8080/api" + api;
+  if (document.domain === 'bkui.tkmqr.com') {
+    return "http://server.tkmqr.com:8080/api" + api;
+  }
+  return "http://127.0.0.1:8080/api" + api;
 }
 
 function getCDN(api) {
-  // return "http://127.0.0.1:8080/api" + api;
-  return "http://server.tkmqr.com:8070/" + api;
+  if (document.domain === 'bkui.tkmqr.com') {
+    return "http://server.tkmqr.com:8070/" + api;
+  }
+  return "http://127.0.0.1:8070/" + api;
 }
 
 function buildRow(handlers, data, keyIdxArray, specs) {
