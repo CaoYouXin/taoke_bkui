@@ -62,6 +62,10 @@ function onNextPageClicked(dataRel) {
   loadUserList(dataRel, page);
 }
 
+function exportAll() {
+  download('/export/all/2');
+}
+
 function onCheck(e, data) {
 
 }

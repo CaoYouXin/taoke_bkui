@@ -189,6 +189,23 @@ function get(api) {
   }
 }
 
+function download(api) {
+  var ut = getUserToken();
+  var req = new XMLHttpRequest();
+  req.open("GET", getAPI(api), true);
+  req.setRequestHeader('auth', ut.token.token);
+  req.responseType = "blob";
+  req.onload = function (event) {
+    var blob = req.response;
+    var fileName = req.getResponseHeader("Content-Disposition");
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName.substring(fileName.indexOf('filename="') + 'filename="'.length, fileName.length - 1);
+    link.click();
+  };
+  req.send();
+}
+
 function post(api, data) {
   var ut = getUserToken();
   if (ut.token) {
