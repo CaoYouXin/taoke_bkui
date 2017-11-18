@@ -67,15 +67,58 @@ function exportAll() {
 }
 
 function onCheck(e, data) {
-
+  letJSONtoForm(data, $('#table-form'));
+  $('.table-modal-lg').modal({ show: true });
 }
 
-function onFroze(e, data) {
-
+function onSubmit() {
+  var data = getJSONfromForm($('#table-form'));
+  post(`/tbk/user/check/agent/${data.id}`, data.pid).done(responseMapper((result) => {
+    renderOne(false, result);
+  }));
 }
 
-function onDefroze(e, data) {
+function onDownGrade(e, data) {
+  get(`/tbk/user/down/grade/${data.id}`).done(responseMapper((result) => {
+    renderOne(false, result);
+  }));
+}
 
+function renderOne(isNew, data) {
+  var table = document.getElementById("table");
+  var tableTitle = table.firstElementChild;
+
+  var colNames = ["id", "name", "realName", "phone", "aliPayId", "qqId", "weChatId", "announcement", "aliPid", "code", "ext"];
+  if (tableTitle.childElementCount - 1 !== colNames.length && tableTitle.childElementCount !== colNames.length) {
+    alert("ERROR, table formattion.");
+    return;
+  }
+
+  var handlers = [{
+    text: '降级',
+    handler: onDownGrade
+  }, {
+    text: '通过审核',
+    handler: onCheck
+  }];
+
+  var renders = [];
+
+  var array = [];
+  for (var i = 0; i < colNames.length; i++) {
+    var obj = {};
+    obj.value = data[colNames[i]];
+    obj.width = tableTitle.children[i].getAttribute('class');
+    array[i] = obj;
+  }
+
+  var rowElem = buildRowFromArray(handlers, data, array, renders, 'col-sm-2');
+
+  if (!isNew) {
+    table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
+  } else {
+    table.appendChild(rowElem);
+  }
 }
 
 function renderAll(page) {
@@ -91,11 +134,8 @@ function renderAll(page) {
   }
 
   var handlers = [{
-    text: '封号',
-    handler: onFroze
-  }, {
-    text: '解封',
-    handler: onDefroze
+    text: '降级',
+    handler: onDownGrade
   }, {
     text: '通过审核',
     handler: onCheck
