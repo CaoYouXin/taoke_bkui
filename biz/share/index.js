@@ -1,3 +1,10 @@
+function onTypeBtn(text, oepnTypeCode) {
+  var typeBtn = document.getElementById('typeBtn');
+  typeBtn.innerHTML = text;
+  var type = document.getElementById('type');
+  type.value = oepnTypeCode;
+}
+
 function openFileUploader() {
   var fileUploader = document.getElementById('fileUploader');
   fileUploader.click();
@@ -37,19 +44,35 @@ function renderImgUrl(text) {
   return `<img src="${getCDN(text)}" alt="no uploaded image" />`;
 }
 
+function renderType(text) {
+  switch (text) {
+    case 1:
+      return '赚钱分享';
+    case 2:
+      return '省钱分享';
+    default:
+      return '未知';
+  }
+}
+
 function renderOne(isNew, data) {
   var table = document.getElementById("table");
 
   var handlers = [{
     text: '修改',
     handler: onChange
+  }, {
+    text: '删除',
+    handler: onDelete
   }];
 
   var renders = [null, {
     innerHTML: renderImgUrl
-  }];
+  }, null, {
+      innerHTML: renderType
+    }];
 
-  var rowElem = buildRow(handlers, data, ["id", "imgUrl", "order"], renders);
+  var rowElem = buildRow(handlers, data, ["id", "imgUrl", "order", "type"], renders);
 
   if (!isNew) {
     table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
@@ -63,6 +86,13 @@ function onChange(e, data) {
   $('.table-modal-lg').modal({ show: true });
 }
 
+function onDelete(e, data) {
+  get(`/app/share/img/url/remove/${data.id}`).done(() => {
+    var table = document.getElementById("table");
+    table.removeChild(findOne(table, 0, data.id + ''));
+  });
+}
+
 function renderAll(data) {
   var table = document.getElementById("table");
   var tableTitle = table.firstElementChild.cloneNode(true);
@@ -72,18 +102,23 @@ function renderAll(data) {
   var handlers = [{
     text: '修改',
     handler: onChange
+  }, {
+    text: '删除',
+    handler: onDelete
   }];
 
   var renders = [null, {
     innerHTML: renderImgUrl
-  }];
+  }, null, {
+      innerHTML: renderType
+    }];
 
   data.forEach(function (rowData) {
-    var rowElem = buildRow(handlers, rowData, ["id", "imgUrl", "order"], renders);
+    var rowElem = buildRow(handlers, rowData, ["id", "imgUrl", "order", "type"], renders);
     table.appendChild(rowElem);
   });
 }
 
 (function () {
-  get('/app/share/img/url/list').done(responseMapper(renderAll));
+  get('/app/share/img/url/list/all').done(responseMapper(renderAll));
 })();
