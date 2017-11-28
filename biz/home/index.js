@@ -68,6 +68,9 @@ function renderOne(isNew, data) {
   var handlers = [{
     text: '修改',
     handler: onChangeHomeBtn
+  }, {
+    text: '删除',
+    handler: onDeleteHomeBtn
   }];
 
   var renders = [null, null, {
@@ -92,6 +95,13 @@ function onChangeHomeBtn(e, data) {
   onOpenTypeBtn(renderOpenType(data.openType), data.openType);
   onLocationTypeBtn(renderLocationType(data.locationType), data.locationType);
   $('.btns-modal-lg').modal({ show: true });
+}
+
+function onDeleteHomeBtn(e, data) {
+  get(`/home/btn/del/${data.id}`).done(() => {
+    var table = document.getElementById("btns");
+    table.removeChild(findOne(table, 0, data.id + ''));
+  });
 }
 
 function renderImgUrl(text) {
@@ -133,6 +143,9 @@ function renderAll(data) {
   var handlers = [{
     text: '修改',
     handler: onChangeHomeBtn
+  }, {
+    text: '删除',
+    handler: onDeleteHomeBtn
   }];
 
   var renders = [null, null, {
