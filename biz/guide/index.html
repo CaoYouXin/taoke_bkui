@@ -70,6 +70,19 @@
             <label for="order">顺序</label>
             <input type="number" class="form-control" name="order" placeholder="Enter order" />
           </div>
+          <div class="form-group">
+            <label for="type">类型</label>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="typeBtn" data-toggle="dropdown">
+                选择类型
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" onClick="onTypeBtn('消费者引导', 1)">消费者引导</a>
+                <a class="dropdown-item" href="#" onClick="onTypeBtn('合伙人引导', 2)">合伙人引导</a>
+              </div>
+            </div>
+            <input id="type" type="text" class="form-control" name="type" placeholder="Enter type" hidden />
+          </div>
           <button type="reset" class="btn btn-secondary">重置</button>
           <button type="button" class="btn btn-primary" onClick="onSubmit()" data-toggle="modal" data-target=".table-modal-lg">提交</button>
         </form>
@@ -86,6 +99,7 @@
         <div class="col-sm">ID</div>
         <div class="col-sm">图片</div>
         <div class="col-sm">排序</div>
+        <div class="col-sm">类型</div>
         <div class="col-sm">操作</div>
       </div>
     </div>

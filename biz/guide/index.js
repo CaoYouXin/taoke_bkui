@@ -17,6 +17,13 @@ function onFileUploaderChange() {
   });
 }
 
+function onTypeBtn(text, typeCode) {
+  var typeBtn = document.getElementById('typeBtn');
+  typeBtn.innerHTML = text;
+  var type = document.getElementById('type');
+  type.value = typeCode;
+}
+
 function onSubmit() {
   var submitData = getJSONfromForm($('#table-form'));
   if (!submitData.id) {
@@ -25,6 +32,7 @@ function onSubmit() {
     submitData.id = Number(submitData.id);
   }
   submitData.order = Number(submitData.order);
+  submitData.type = Number(submitData.type);
 
   post('/app/guide/set', submitData)
     .done(responseMapper((data) => {
@@ -37,19 +45,35 @@ function renderImgUrl(text) {
   return `<img src="${getCDN(text)}" alt="no uploaded image" />`;
 }
 
+function renderType(text) {
+  switch (text) {
+    case 1:
+      return '消费者引导';
+    case 2:
+      return '合伙人引导';
+    default:
+      return '类型错误';
+  }
+}
+
 function renderOne(isNew, data) {
   var table = document.getElementById("table");
 
   var handlers = [{
     text: '修改',
     handler: onChange
+  }, {
+    text: '删除',
+    handler: onDelete
   }];
 
   var renders = [null, {
     innerHTML: renderImgUrl
-  }];
+  }, null, {
+      innerHTML: renderType
+    }];
 
-  var rowElem = buildRow(handlers, data, ["id", "imgUrl", "order"], renders);
+  var rowElem = buildRow(handlers, data, ["id", "imgUrl", "order", "type"], renders);
 
   if (!isNew) {
     table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
@@ -63,6 +87,13 @@ function onChange(e, data) {
   $('.table-modal-lg').modal({ show: true });
 }
 
+function onDelete(e, data) {
+  get(`/app/guide/remove/${data.id}`).done(() => {
+    var table = document.getElementById("table");
+    table.removeChild(findOne(table, 0, data.id + ''));
+  });
+}
+
 function renderAll(data) {
   var table = document.getElementById("table");
   var tableTitle = table.firstElementChild.cloneNode(true);
@@ -72,14 +103,19 @@ function renderAll(data) {
   var handlers = [{
     text: '修改',
     handler: onChange
+  }, {
+    text: '删除',
+    handler: onDelete
   }];
 
   var renders = [null, {
     innerHTML: renderImgUrl
-  }];
+  }, null, {
+      innerHTML: renderType
+    }];
 
   data.forEach(function (rowData) {
-    var rowElem = buildRow(handlers, rowData, ["id", "imgUrl", "order"], renders);
+    var rowElem = buildRow(handlers, rowData, ["id", "imgUrl", "order", "type"], renders);
     table.appendChild(rowElem);
   });
 }
