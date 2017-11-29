@@ -10,10 +10,12 @@ function getJSONfromForm($form) {
     var $dI = $(dI);
     ret[$dI.attr('name')] = $dI.val();
   });
+  console.log(ret);
   return ret;
 }
 
 function letJSONtoForm(data, $form) {
+  console.log(data);
   Object.keys(data).forEach((key) => {
     var input = $form.find(`input[name="${key}"]`);
     if (input.length) {

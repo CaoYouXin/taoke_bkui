@@ -11,7 +11,6 @@ function onSubmit() {
     .done(responseMapper((data) => {
 
       renderOne(!submitData.id, data);
-      delete data.id;
       letJSONtoForm(data, $('#cate-form'));
     }));
 }
