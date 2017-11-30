@@ -7,7 +7,8 @@ function renderAll(data) {
   var renders = [];
 
   data.forEach(function (rowData) {
-    var rowElem = buildRow(null, rowData, ["id", "title", "content"], renders);
+    rowData.message.id = rowData.id;
+    var rowElem = buildRow(null, rowData.message, ["id", "title", "content"], renders);
     table.appendChild(rowElem);
   });
 }
