@@ -3,7 +3,7 @@ function onPay(e, data) {
     return;
   }
 
-  var confirmed = prompt("确定用户收到打款了吗？");
+  var confirmed = confirm("确定用户收到打款了吗？");
   if (!confirmed) {
     return;
   }
