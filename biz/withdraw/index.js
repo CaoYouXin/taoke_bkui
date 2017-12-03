@@ -8,7 +8,9 @@ function onPay(e, data) {
     return;
   }
 
-  get('/tbk/withdraw/response/' + data.id).done(responseMapper(renderOne));
+  get('/tbk/withdraw/response/' + data.id).done(responseMapper((data) => {
+    
+  }));
 }
 
 function renderOne(isNew, data) {

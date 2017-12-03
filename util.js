@@ -38,14 +38,14 @@ function getAPI(api) {
   if (document.domain === 'bkui.tkmqr.com') {
     return "http://server.tkmqr.com:8080/api" + api;
   }
-  return "http://192.168.0.115:8080/api" + api;
+  return "http://192.168.0.136:8080/api" + api;
 }
 
 function getCDN(api) {
   if (document.domain === 'bkui.tkmqr.com') {
     return "http://server.tkmqr.com:8070/" + api;
   }
-  return "http://192.168.0.115:8070/" + api;
+  return "http://192.168.0.136:8070/" + api;
 }
 
 function buildRow(handlers, data, keyIdxArray, specs) {
