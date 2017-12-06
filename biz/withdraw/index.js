@@ -9,7 +9,8 @@ function onPay(e, data) {
   }
 
   get('/tbk/withdraw/response/' + data.id).done(responseMapper((data) => {
-    
+    var table = document.getElementById("table");
+    table.removeChild(findOne(table, 0, data.id + ''));
   }));
 }
 
