@@ -1,4 +1,6 @@
-function onTopCateClicked(e) {
+var params = {};
+
+function onTopCateClicked(e, load) {
   $.each($("#topCates > button"), (i, $btn) => {
     $btn.classList.remove('btn-primary');
     $btn.classList.remove('btn-secondary');
@@ -13,18 +15,27 @@ function onTopCateClicked(e) {
   $('section').addClass('d-none');
   $(`section[data-rel=${dataRel}]`).removeClass('d-none');
 
-  location.hash = dataRel;
-  loadUserList(dataRel, 1, true);
+  if (load) {
+    var showAnonymous = $(`section[data-rel=${dataRel}] input.form-check-input`)[0];
+    if (showAnonymous) {
+      loadUserList(dataRel, 1, $(showAnonymous).is(':checked') ? 1 : 0, true);
+    } else {
+      loadUserList(dataRel, 1, 1, true);
+    }
+  }
 }
 
-function loadUserList(dataRel, page, init) {
-  var end = location.hash.indexOf('p');
-  location.hash = location.hash.substring(0, end !== -1 ? end : location.hash.length) + 'p' + page;
+function loadUserList(dataRel, page, showAnonymousFlag, init) {
+  params = { dataRel: dataRel };
+  params.page = page;
   switch (dataRel) {
     case '1':
-      get(`/admin/manage/user/list/${page}`).done(responseMapper(renderAll));
+      params.showAnonymousFlag = showAnonymousFlag;
+      get(`/admin/manage/user/list/${page}/${showAnonymousFlag}`).done(responseMapper(renderAll));
       break;
     case '2':
+    case '3':
+    case '4':
       if (init) {
         renderAll({
           first: true,
@@ -35,35 +46,34 @@ function loadUserList(dataRel, page, init) {
         });
       }
       break;
+    // case '4':
+    // get(`/admin/manage/user/need/check/list/${page}`).done(responseMapper(renderAll));
+    // break;
   }
 }
 
+function onAnonymousFlagChange(dataRel) {
+  loadUserList(dataRel, 1, params.showAnonymousFlag === 1 ? 0 : 1, false);
+}
+
 function onFirstPageClicked(dataRel) {
-  loadUserList(dataRel, 1);
+  loadUserList(dataRel, 1, params.showAnonymousFlag, false);
 }
 
 function onLastPageClicked(dataRel) {
-  var start = location.hash.indexOf('of') + 2;
-  var page = location.hash.substring(start);
-  loadUserList(dataRel, page);
+  loadUserList(dataRel, params.total, params.showAnonymousFlag, false);
 }
 
 function onPreviousPageClicked(dataRel) {
-  var start = location.hash.indexOf('p');
-  var end = location.hash.indexOf('of');
-  var page = Number(location.hash.substring(start + 1, end)) - 1;
-  loadUserList(dataRel, page);
+  loadUserList(dataRel, Number(params.page) - 1, params.showAnonymousFlag, false);
 }
 
 function onNextPageClicked(dataRel) {
-  var start = location.hash.indexOf('p');
-  var end = location.hash.indexOf('of');
-  var page = Number(location.hash.substring(start + 1, end)) + 1;
-  loadUserList(dataRel, page);
+  loadUserList(dataRel, Number(params.page) + 1, params.showAnonymousFlag, false);
 }
 
 function exportAll() {
-  download('/export/all/2');
+  download(`/export/all/${params.showAnonymousFlag}`);
 }
 
 function onCheck(e, data) {
@@ -156,9 +166,9 @@ function renderAll(page) {
     table.appendChild(rowElem);
   });
 
-  $(`section[data-rel=${location.hash.substring(1, location.hash.indexOf('p'))}] > .badge`).html(`共${page.totalElements}个`);
+  $(`section[data-rel=${params.dataRel}] > .badge`).html(`共${page.totalElements}个`);
 
-  $.each($(`section[data-rel=${location.hash.substring(1, location.hash.indexOf('p'))}] > .btn-group > button`), (i, $page) => {
+  $.each($(`section[data-rel=${params.dataRel}] > .btn-group > button`), (i, $page) => {
     if (i <= 1) {
       if (page.first) {
         $page.setAttribute('disabled', true);
@@ -174,16 +184,25 @@ function renderAll(page) {
     }
   });
 
-  if (location.hash.match(/p/)) {
-    location.hash = location.hash + 'of' + page.totalPages;
-  }
+  params.total = page.totalPages;
+  location.hash = Object.keys(params).reduce(
+    function (a, k) { a.push(k + '=' + encodeURIComponent(params[k])); return a; }, []
+  ).join('&');
 }
 
 (function () {
   if (location.hash) {
-    var end = location.hash.indexOf('p');
-    onTopCateClicked({ target: $(`#topCates > button[data-rel=${location.hash.substring(1, end !== -1 ? end : location.hash.length)}]`)[0] });
+    params = decodeURIComponent(location.hash).substring(1).split(/&/).reduce(
+      function (a, kv) { keyV = kv.split(/=/); a[keyV[0]] = keyV[1]; return a; }, {}
+    );
+    console.log('refresh from url hash: ', params);
+    onTopCateClicked({ target: $(`#topCates > button[data-rel=${params.dataRel}]`)[0] }, false);
+    var showAnonymous = $(`section[data-rel=${params.dataRel}] input.form-check-input`)[0];
+    if (showAnonymous) {
+      $(showAnonymous).attr('checked', params.showAnonymousFlag === '1');
+    }
+    loadUserList(params.dataRel, params.page, params.showAnonymousFlag, true);
   } else {
-    onTopCateClicked({ target: $("#topCates > button")[0] });
+    onTopCateClicked({ target: $("#topCates > button")[0] }, true);
   }
 })();

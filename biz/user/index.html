@@ -78,10 +78,10 @@
     <a href="../../">&lt; 返回首页</a>
     <h1>用户管理</h1>
     <div class="btn-group" role="group" id="topCates">
-      <button type="button" class="btn btn-secondary" data-rel="1" onClick="onTopCateClicked(event)">全部</button>
-      <button type="button" class="btn btn-secondary" data-rel="2" onClick="onTopCateClicked(event)">搜索</button>
-      <button type="button" class="btn btn-secondary" data-rel="3" onClick="onTopCateClicked(event)">团队</button>
-      <button type="button" class="btn btn-secondary" data-rel="4" onClick="onTopCateClicked(event)">审核</button>
+      <button type="button" class="btn btn-secondary" data-rel="1" onClick="onTopCateClicked(event, true)">全部</button>
+      <button type="button" class="btn btn-secondary" data-rel="2" onClick="onTopCateClicked(event, true)">搜索</button>
+      <button type="button" class="btn btn-secondary" data-rel="3" onClick="onTopCateClicked(event, true)">团队</button>
+      <button type="button" class="btn btn-secondary" data-rel="4" onClick="onTopCateClicked(event, true)">审核</button>
     </div>
     <hr>
     <section class="clearfix" data-rel="1">
@@ -90,6 +90,11 @@
         <button type="button" class="btn btn-light" onClick="onPreviousPageClicked('1')">&lt;</button>
         <button type="button" class="btn btn-light" onClick="onNextPageClicked('1')">&gt;</button>
         <button type="button" class="btn btn-light" onClick="onLastPageClicked('1')">&gt;|</button>
+      </div>
+      <div class="col-sm-3 float-left">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" onClick="onAnonymousFlagChange('1')"> 包含匿名游客
+        </label>
       </div>
       <button type="button" class="btn btn-dark float-right" onClick="exportAll()">导出Excel</button>
       <span class="badge badge-info float-right"></span>
@@ -133,10 +138,10 @@
     </section>
     <section class="clearfix" data-rel="4">
       <div class="btn-group float-left" role="group">
-        <button type="button" class="btn btn-light">|&lt;</button>
-        <button type="button" class="btn btn-light">&lt;</button>
-        <button type="button" class="btn btn-light">&gt;</button>
-        <button type="button" class="btn btn-light">&gt;|</button>
+        <button type="button" class="btn btn-light" onClick="onFirstPageClicked('4')">|&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onPreviousPageClicked('4')">&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onNextPageClicked('4')">&gt;</button>
+        <button type="button" class="btn btn-light" onClick="onLastPageClicked('4')">&gt;|</button>
       </div>
       <button type="button" class="btn btn-dark float-right">导出Excel</button>
       <span class="badge badge-info float-right"></span>
