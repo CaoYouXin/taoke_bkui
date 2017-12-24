@@ -16,26 +16,24 @@ function onTopCateClicked(e, load) {
   $(`section[data-rel=${dataRel}]`).removeClass('d-none');
 
   if (load) {
+    params = { dataRel: dataRel };
     var showAnonymous = $(`section[data-rel=${dataRel}] input.form-check-input`)[0];
     if (showAnonymous) {
-      loadUserList(dataRel, 1, $(showAnonymous).is(':checked') ? 1 : 0, true);
+      loadUserList(1, $(showAnonymous).is(':checked') ? 1 : 0, null, true);
     } else {
-      loadUserList(dataRel, 1, 1, true);
+      loadUserList(1, 1, null, true);
     }
   }
 }
 
-function loadUserList(dataRel, page, showAnonymousFlag, init) {
-  params = { dataRel: dataRel };
+function loadUserList(page, showAnonymousFlag, search, init) {
   params.page = page;
-  switch (dataRel) {
+  switch (params.dataRel) {
     case '1':
       params.showAnonymousFlag = showAnonymousFlag;
       get(`/admin/manage/user/list/${page}/${showAnonymousFlag}`).done(responseMapper(renderAll));
       break;
     case '2':
-    case '3':
-    case '4':
       if (init) {
         renderAll({
           first: true,
@@ -44,36 +42,73 @@ function loadUserList(dataRel, page, showAnonymousFlag, init) {
           totalElements: 0,
           totalPages: 0
         });
+      } else {
+        params.search = search;
+        get(`/admin/manage/user/search/${search}/${page}`).done(responseMapper(renderAll));
       }
       break;
-    // case '4':
-    // get(`/admin/manage/user/need/check/list/${page}`).done(responseMapper(renderAll));
-    // break;
+    case '3':
+      if (init) {
+        renderAll({
+          first: true,
+          last: true,
+          content: [],
+          totalElements: 0,
+          totalPages: 0
+        });
+      } else {
+        params.search = search;
+        get(`/admin/manage/user/team/list/${page}/of/${search}`).done(responseMapper(renderAll));
+      }
+      break;
+    case '4':
+      get(`/admin/manage/user/need/check/list/${page}`).done(responseMapper(renderAll));
+      break;
   }
 }
 
-function onAnonymousFlagChange(dataRel) {
-  loadUserList(dataRel, 1, params.showAnonymousFlag === 1 ? 0 : 1, false);
+function searchText() {
+  loadUserList(1, params.showAnonymousFlag, $("#searchTextId").val(), false);
 }
 
-function onFirstPageClicked(dataRel) {
-  loadUserList(dataRel, 1, params.showAnonymousFlag, false);
+function searchTeam() {
+  loadUserList(1, params.showAnonymousFlag, $("#searchTeamId").val(), false);
 }
 
-function onLastPageClicked(dataRel) {
-  loadUserList(dataRel, params.total, params.showAnonymousFlag, false);
+function onAnonymousFlagChange() {
+  loadUserList(1, params.showAnonymousFlag === 1 ? 0 : 1, params.search, false);
 }
 
-function onPreviousPageClicked(dataRel) {
-  loadUserList(dataRel, Number(params.page) - 1, params.showAnonymousFlag, false);
+function onFirstPageClicked() {
+  loadUserList(1, params.showAnonymousFlag, params.search, false);
 }
 
-function onNextPageClicked(dataRel) {
-  loadUserList(dataRel, Number(params.page) + 1, params.showAnonymousFlag, false);
+function onLastPageClicked() {
+  loadUserList(params.total, params.showAnonymousFlag, params.search, false);
+}
+
+function onPreviousPageClicked() {
+  loadUserList(Number(params.page) - 1, params.showAnonymousFlag, params.search, false);
+}
+
+function onNextPageClicked() {
+  loadUserList(Number(params.page) + 1, params.showAnonymousFlag, params.search, false);
 }
 
 function exportAll() {
   download(`/export/all/${params.showAnonymousFlag}`);
+}
+
+function exportAllNeedCheck() {
+  download(`/export/all/need/check`);
+}
+
+function exportTeam() {
+  download(`/export/team/${$("#searchTeamId").val()}`);
+}
+
+function exportSearch() {
+  download(`/export/search/${$("#searchTextId").val()}`);
 }
 
 function onCheck(e, data) {
@@ -197,11 +232,18 @@ function renderAll(page) {
     );
     console.log('refresh from url hash: ', params);
     onTopCateClicked({ target: $(`#topCates > button[data-rel=${params.dataRel}]`)[0] }, false);
+
     var showAnonymous = $(`section[data-rel=${params.dataRel}] input.form-check-input`)[0];
     if (showAnonymous) {
       $(showAnonymous).attr('checked', params.showAnonymousFlag === '1');
     }
-    loadUserList(params.dataRel, params.page, params.showAnonymousFlag, true);
+
+    var search = $(`section[data-rel=${params.dataRel}] input[type="text"]`)[0];
+    if (search) {
+      $(search).val(params.search);
+    }
+
+    loadUserList(params.page, params.showAnonymousFlag, params.search, false);
   } else {
     onTopCateClicked({ target: $("#topCates > button")[0] }, true);
   }

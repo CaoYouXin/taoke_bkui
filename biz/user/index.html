@@ -86,14 +86,14 @@
     <hr>
     <section class="clearfix" data-rel="1">
       <div class="btn-group float-left" role="group">
-        <button type="button" class="btn btn-light" onClick="onFirstPageClicked('1')">|&lt;</button>
-        <button type="button" class="btn btn-light" onClick="onPreviousPageClicked('1')">&lt;</button>
-        <button type="button" class="btn btn-light" onClick="onNextPageClicked('1')">&gt;</button>
-        <button type="button" class="btn btn-light" onClick="onLastPageClicked('1')">&gt;|</button>
+        <button type="button" class="btn btn-light" onClick="onFirstPageClicked()">|&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onPreviousPageClicked()">&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onNextPageClicked()">&gt;</button>
+        <button type="button" class="btn btn-light" onClick="onLastPageClicked()">&gt;|</button>
       </div>
       <div class="col-sm-3 float-left">
         <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" onClick="onAnonymousFlagChange('1')"> 包含匿名游客
+          <input type="checkbox" class="form-check-input" onClick="onAnonymousFlagChange()"> 包含匿名游客
         </label>
       </div>
       <button type="button" class="btn btn-dark float-right" onClick="exportAll()">导出Excel</button>
@@ -108,42 +108,41 @@
       </div>
       <div class="col-sm-4 float-left">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...">
+          <input id="searchTextId" type="text" class="form-control" placeholder="Search for...">
           <span class="input-group-btn">
-            <button class="btn btn-warning" type="button">Go!</button>
+            <button class="btn btn-warning" type="button" onClick="searchText()">Go!</button>
           </span>
         </div>
       </div>
-      <button type="button" class="btn btn-dark float-right">导出Excel</button>
+      <button type="button" class="btn btn-dark float-right" onClick="exportSearch()">导出Excel</button>
       <span class="badge badge-info float-right"></span>
     </section>
     <section class="clearfix" data-rel="3">
       <div class="btn-group float-left" role="group">
-        <button type="button" class="btn btn-light">|&lt;</button>
-        <button type="button" class="btn btn-light">&lt;</button>
-        <button type="button" class="btn btn-light">&gt;</button>
-        <button type="button" class="btn btn-light">&gt;|</button>
+        <button type="button" class="btn btn-light" onClick="onFirstPageClicked()">|&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onPreviousPageClicked()">&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onNextPageClicked()">&gt;</button>
+        <button type="button" class="btn btn-light" onClick="onLastPageClicked()">&gt;|</button>
       </div>
       <div class="col-sm-4 float-left">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Enter UserID...">
+          <input id="searchTeamId" type="text" class="form-control" placeholder="Enter UserID...">
           <span class="input-group-btn">
-            <button class="btn btn-warning" type="button">Go!</button>
+            <button class="btn btn-warning" type="button" onClick="searchTeam()">Go!</button>
           </span>
         </div>
       </div>
-      <button type="button" class="btn btn-light">上一级</button>
-      <button type="button" class="btn btn-dark float-right">导出Excel</button>
+      <button type="button" class="btn btn-dark float-right" onClick="exportTeam()">导出Excel</button>
       <span class="badge badge-info float-right"></span>
     </section>
     <section class="clearfix" data-rel="4">
       <div class="btn-group float-left" role="group">
-        <button type="button" class="btn btn-light" onClick="onFirstPageClicked('4')">|&lt;</button>
-        <button type="button" class="btn btn-light" onClick="onPreviousPageClicked('4')">&lt;</button>
-        <button type="button" class="btn btn-light" onClick="onNextPageClicked('4')">&gt;</button>
-        <button type="button" class="btn btn-light" onClick="onLastPageClicked('4')">&gt;|</button>
+        <button type="button" class="btn btn-light" onClick="onFirstPageClicked()">|&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onPreviousPageClicked()">&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onNextPageClicked()">&gt;</button>
+        <button type="button" class="btn btn-light" onClick="onLastPageClicked()">&gt;|</button>
       </div>
-      <button type="button" class="btn btn-dark float-right">导出Excel</button>
+      <button type="button" class="btn btn-dark float-right" onClick="exportAllNeedCheck()">导出Excel</button>
       <span class="badge badge-info float-right"></span>
     </section>
     <hr>
