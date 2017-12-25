@@ -19,6 +19,9 @@ function renderOne(isNew, data) {
   var handlers = [{
     text: '修改',
     handler: onChange
+  }, {
+    text: '删除',
+    handler: onDelete
   }];
 
   var renders = [];
@@ -37,6 +40,13 @@ function onChange(e, data) {
   $('.table-modal-lg').modal({ show: true });
 }
 
+function onDelete(e, data) {
+  get(`/app/help/remove/${data.id}`).done(() => {
+    var table = document.getElementById("table");
+    table.removeChild(findOne(table, 0, data.id + ''));
+  });
+}
+
 function renderAll(data) {
   var table = document.getElementById("table");
   var tableTitle = table.firstElementChild.cloneNode(true);
@@ -46,6 +56,9 @@ function renderAll(data) {
   var handlers = [{
     text: '修改',
     handler: onChange
+  }, {
+    text: '删除',
+    handler: onDelete
   }];
 
   var renders = [];
