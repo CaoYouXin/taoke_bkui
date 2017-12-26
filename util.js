@@ -65,6 +65,18 @@ function buildRow(handlers, data, keyIdxArray, specs) {
   return buildRowFromArray(handlers, data, array, specs, 'col-sm');
 }
 
+function buildRowWithTitleWidth(handlers, rowData, tableTitle, colNames, renders, handlerWidth) {
+  var array = [];
+  for (var i = 0; i < colNames.length; i++) {
+    var obj = {};
+    obj.value = rowData[colNames[i]];
+    obj.width = tableTitle.children[i].getAttribute('class');
+    array[i] = obj;
+  }
+
+  return buildRowFromArray(handlers, rowData, array, renders, handlerWidth);
+}
+
 function buildRowFromArray(handlers, data, array, specs, handlerWidth) {
   specs = specs || [];
 
