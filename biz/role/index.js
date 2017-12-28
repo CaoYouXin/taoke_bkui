@@ -1,6 +1,8 @@
 var table = document.getElementById("table");
 var menus = document.getElementById("menus");
 var formMenus = document.getElementById("form-menus");
+var apis = document.getElementById("apis");
+var formApis = document.getElementById("form-apis");
 
 var handlers = [{
   text: '修改',
@@ -20,16 +22,16 @@ function preRender(rowData) {
   return rowData;
 }
 
-function buildMenu(name, id) {
+function buildMenu(bindUrl, unbindUrl, dropdown, formField, name, id) {
   var a = document.createElement('a');
   a.classList.add('dropdown-item');
   a.setAttribute('href', '#');
   a.innerText = name;
-  a.onclick = function (e) { onMenuAdd(e, name, id); };
+  a.onclick = function (e) { onMenuAdd(e, bindUrl, unbindUrl, dropdown, formField, name, id); };
   return a;
 }
 
-function buildFormMenu(name, id) {
+function buildFormMenu(bindUrl, unbindUrl, dropdown, formField, name, id) {
   var div = document.createElement('div');
   div.classList.add('float-left');
   div.classList.add('form-menu');
@@ -40,27 +42,27 @@ function buildFormMenu(name, id) {
   var handler = document.createElement('span');
   handler.classList.add('delete');
   handler.innerText = '删除';
-  handler.onclick = function (e) { onMenuRemove(e, name, id); };
+  handler.onclick = function (e) { onMenuRemove(e, bindUrl, unbindUrl, dropdown, formField, name, id); };
   div.appendChild(handler);
   return div;
 }
 
-function onMenuRemove(e, name, id) {
-  post('/admin/menu/unbind', {
+function onMenuRemove(e, bindUrl, unbindUrl, dropdown, formField, name, id) {
+  post(unbindUrl, {
     id: id,
     to: to
   }).done(responseMapper(function () {
-    menus.appendChild(buildMenu(name, id));
+    dropdown.appendChild(buildMenu(bindUrl, unbindUrl, dropdown, formField, name, id));
     e.target.parentElement.parentElement.removeChild(e.target.parentElement);
   }));
 }
 
-function onMenuAdd(e, name, id) {
-  post('/admin/menu/bind', {
+function onMenuAdd(e, bindUrl, unbindUrl, dropdown, formField, name, id) {
+  post(bindUrl, {
     id: id,
     to: to
   }).done(responseMapper(function () {
-    formMenus.appendChild(buildFormMenu(name, id));
+    formField.appendChild(buildFormMenu(bindUrl, unbindUrl, dropdown, formField, name, id));
     e.target.parentElement.removeChild(e.target);
   }));
 }
@@ -105,18 +107,31 @@ function onChange(e, data) {
 
 function onPrivilege(e, data) {
   to = data.id;
+  letJSONtoForm(data, $('#table-form-2'));
+  $('.table-modal-lg-2').modal({ show: true });
+
   get('/admin/menu/list').done(responseMapper(function (res) {
     formMenus.innerHTML = '';
     menus.innerHTML = '';
     res.forEach(function (menu) {
       if (data.menus.some(m => m.name === menu.name)) {
-        formMenus.appendChild(buildFormMenu(menu.name, menu.id));
+        formMenus.appendChild(buildFormMenu('/admin/menu/bind', '/admin/menu/unbind', menus, formMenus, menu.name, menu.id));
       } else {
-        menus.appendChild(buildMenu(menu.name, menu.id));
+        menus.appendChild(buildMenu('/admin/menu/bind', '/admin/menu/unbind', menus, formMenus, menu.name, menu.id));
       }
     });
-    letJSONtoForm(data, $('#table-form-2'));
-    $('.table-modal-lg-2').modal({ show: true });
+  }));
+
+  get('/admin/privilege/list').done(responseMapper(function (res) {
+    formApis.innerHTML = '';
+    apis.innerHTML = '';
+    res.forEach(function (api) {
+      if (data.privileges.some(p => p.api === api.api)) {
+        formApis.appendChild(buildFormMenu('/admin/privilege/bind', '/admin/privilege/unbind', apis, formApis, api.api, api.id));
+      } else {
+        apis.appendChild(buildMenu('/admin/privilege/bind', '/admin/privilege/unbind', apis, formApis, api.api, api.id));
+      }
+    });
   }));
 }
 
