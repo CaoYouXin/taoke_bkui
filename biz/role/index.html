@@ -35,8 +35,17 @@
       border-bottom: dashed 1px #282828;
     }
 
+    #table>.row>div>div {
+      line-height: 1.5em;
+    }
+
     #table>.row .btn {
       padding: 0 1em;
+    }
+
+    #form-menus {
+      border: solid 1px whitesmoke;
+      padding: 10px;
     }
 
     .form-group>button {
@@ -45,6 +54,39 @@
 
     .form-group.hidden {
       display: none;
+    }
+
+    .form-menu {
+      font-size: 0;
+      border: solid 1px lightcyan;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 30px;
+      cursor: default;
+      user-select: none;
+    }
+
+    .form-menu>* {
+      display: inline-block;
+      font-size: 16px;
+      padding: 0 10px;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    .form-menu>.name {
+      background-color: gray;
+      color: white;
+    }
+
+    .form-menu>.delete {
+      background: white;
+      color: lightgray;
+      cursor: pointer;
+    }
+
+    .form-menu>.delete:hover {
+      color: gray;
     }
   </style>
 </head>
@@ -82,8 +124,16 @@
             <label for="name">名称</label>
             <input type="text" class="form-control" name="name" placeholder="Enter name" disabled />
           </div>
+          <div class="form-group">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                选择菜单
+              </button>
+              <div class="dropdown-menu" id="menus"></div>
+            </div>
+          </div>
+          <div id="form-menus" class="form-group clearfix"></div>
         </form>
-
       </div>
     </div>
   </div>

@@ -1,79 +1,60 @@
-function openFileUploader() {
-  var fileUploader = document.getElementById('fileUploader');
-  fileUploader.click();
+var table = document.getElementById("table");
+var roles1 = document.getElementById("roles-1");
+var role1 = document.getElementById("role-1");
+
+var handlers = [{
+  text: '角色设定',
+  handler: onChangeRole
+}, {
+  text: '重设密码',
+  handler: onResetPwd
+}, {
+  text: '删除',
+  handler: onDelete
+}];
+
+var renders = [
+  null, null, {
+    innerHTML: renderRole
+  }
+];
+
+var colNames = ["id", "name", "role"];
+
+function onChangeRole(e, data) {
+
 }
 
-function onFileUploaderChange() {
-  var fileUploader = document.getElementById('fileUploader');
-  var imgUrl = document.getElementById('imgUrl');
+function onResetPwd(e, data) {
 
-  upload($('#uploader')).done((data, status) => {
-    console.log(data, status);
-    data = JSON.parse(data);
-    Object.keys(data).forEach(key => {
-      imgUrl.value = data[key];
-    });
-    fileUploader.value = '';
-  });
 }
 
-function onTypeBtn(text, typeCode) {
-  var typeBtn = document.getElementById('typeBtn');
-  typeBtn.innerHTML = text;
-  var type = document.getElementById('type');
-  type.value = typeCode;
+function onDelete(e, data) {
+
 }
 
-function onSubmit() {
+function renderRole(role) {
+  return `${role.name}`;
+}
+
+function onCreateSubmit() {
   var submitData = getJSONfromForm($('#table-form'));
   if (!submitData.id) {
     delete submitData.id;
   } else {
     submitData.id = Number(submitData.id);
   }
-  submitData.order = Number(submitData.order);
-  submitData.type = Number(submitData.type);
+  submitData.roleId = Number(submitData.roleId);
 
-  post('/app/guide/set', submitData)
+  post('/admin/user/create', submitData)
     .done(responseMapper((data) => {
 
       renderOne(!submitData.id, data);
     }));
 }
 
-function renderImgUrl(text) {
-  return `<img src="${getCDN(text)}" alt="no uploaded image" />`;
-}
-
-function renderType(text) {
-  switch (text) {
-    case 1:
-      return '消费者引导';
-    case 2:
-      return '合伙人引导';
-    default:
-      return '类型错误';
-  }
-}
-
 function renderOne(isNew, data) {
-  var table = document.getElementById("table");
-
-  var handlers = [{
-    text: '修改',
-    handler: onChange
-  }, {
-    text: '删除',
-    handler: onDelete
-  }];
-
-  var renders = [null, {
-    innerHTML: renderImgUrl
-  }, null, {
-      innerHTML: renderType
-    }];
-
-  var rowElem = buildRow(handlers, data, ["id", "imgUrl", "order", "type"], renders);
+  var rowElem = buildRow(handlers, data, colNames, renders, 'col-sm-4');
 
   if (!isNew) {
     table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
@@ -82,44 +63,34 @@ function renderOne(isNew, data) {
   }
 }
 
-function onChange(e, data) {
-  letJSONtoForm(data, $('#table-form'));
-  $('.table-modal-lg').modal({ show: true });
-}
-
-function onDelete(e, data) {
-  get(`/app/guide/remove/${data.id}`).done(() => {
-    var table = document.getElementById("table");
-    table.removeChild(findOne(table, 0, data.id + ''));
-  });
-}
-
 function renderAll(data) {
-  var table = document.getElementById("table");
   var tableTitle = table.firstElementChild.cloneNode(true);
   table.innerHTML = "";
   table.appendChild(tableTitle);
 
-  var handlers = [{
-    text: '修改',
-    handler: onChange
-  }, {
-    text: '删除',
-    handler: onDelete
-  }];
-
-  var renders = [null, {
-    innerHTML: renderImgUrl
-  }, null, {
-      innerHTML: renderType
-    }];
-
   data.forEach(function (rowData) {
-    var rowElem = buildRow(handlers, rowData, ["id", "imgUrl", "order", "type"], renders);
+    var rowElem = buildRow(handlers, rowData, colNames, renders, 'col-sm-4');
     table.appendChild(rowElem);
   });
 }
 
+function buildMenu(name, id) {
+  var a = document.createElement('a');
+  a.classList.add('dropdown-item');
+  a.setAttribute('href', '#');
+  a.innerText = name;
+  a.onclick = function (e) {
+    $(role1).val(id);
+  };
+  return a;
+}
+
 (function () {
-  get('/app/guide/list').done(responseMapper(renderAll));
+  get('/admin/user/list').done(responseMapper(renderAll));
+  get('/admin/role/list').done(responseMapper(function (data) {
+    roles1.innerHTML = '';
+    data.forEach(datum => {
+      roles1.appendChild(buildMenu(datum.name, datum.id));
+    });
+  }));
 })();

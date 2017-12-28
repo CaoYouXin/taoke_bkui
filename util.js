@@ -48,7 +48,7 @@ function getCDN(api) {
   return "http://127.0.0.1:8070/" + api;
 }
 
-function buildRow(handlers, data, keyIdxArray, specs) {
+function buildRow(handlers, data, keyIdxArray, specs, handlerWidth) {
   if (!keyIdxArray.length) {
     throw new Error('argument wrong, reprogram it.');
   }
@@ -62,7 +62,7 @@ function buildRow(handlers, data, keyIdxArray, specs) {
     array[i] = obj;
   }
 
-  return buildRowFromArray(handlers, data, array, specs, 'col-sm');
+  return buildRowFromArray(handlers, data, array, specs, handlerWidth || 'col-sm');
 }
 
 function buildRowWithTitleWidth(handlers, rowData, tableTitle, colNames, renders, handlerWidth) {
@@ -74,7 +74,7 @@ function buildRowWithTitleWidth(handlers, rowData, tableTitle, colNames, renders
     array[i] = obj;
   }
 
-  return buildRowFromArray(handlers, rowData, array, renders, handlerWidth);
+  return buildRowFromArray(handlers, rowData, array, renders, handlerWidth || 'col-sm');
 }
 
 function buildRowFromArray(handlers, data, array, specs, handlerWidth) {
@@ -105,7 +105,7 @@ function buildRowFromArray(handlers, data, array, specs, handlerWidth) {
   }
 
   var lastCell = document.createElement('div');
-  lastCell.classList.add(handlerWidth);
+  lastCell.classList.add(handlerWidth || 'col-sm');
 
   var handlerG = document.createElement('div');
   handlerG.classList.add('btn-group');
