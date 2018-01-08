@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>APP首页广告区管理 - 觅券儿系统后台</title>
+
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    #btns {
+      margin-top: 1em;
+    }
+
+    .row {
+      line-height: 2em;
+    }
+
+    .row .btn {
+      padding: 0 1em;
+    }
+
+    #btns>.row:first-child,
+    #favs>.row:first-child {
+      border-bottom: solid 1px #282828;
+    }
+
+    #btns>.row:not(:first-child),
+    #favs>.row:not(:first-child) {
+      line-height: 3em;
+      border-bottom: dashed 1px #282828;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="uploader">
+    <input id="fileUploader" type="file" name="uploadFiles" accept="image/*" onChange="onFileUploaderChange()" hidden />
+  </form>
+  <div class="modal fade btns-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="homeBtn-form">
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" name="id" placeholder="Input Not Allowed" disabled />
+          </div>
+          <div class="form-group">
+            <label for="name">名称</label>
+            <input type="text" class="form-control" name="name" placeholder="Enter name" />
+          </div>
+          <div class="form-group">
+            <label for="imgUrl">图片</label>
+            <input id="imgUrl" type="text" class="form-control" name="imgUrl" placeholder="Enter imgUrl" />
+            <button type="button" class="btn btn-secondary form-control" onClick="openFileUploader()">本地上传</button>
+          </div>
+          <div class="form-group">
+            <label for="order">顺序</label>
+            <input type="number" class="form-control" name="order" placeholder="Enter order" />
+          </div>
+          <div class="form-group">
+            <label for="rowSpan">行</label>
+            <input type="number" class="form-control" name="rowSpan" placeholder="Enter rowSpan" />
+          </div>
+          <div class="form-group">
+            <label for="colSpan">列</label>
+            <input type="number" class="form-control" name="colSpan" placeholder="Enter colSpan" />
+          </div>
+          <div class="form-group">
+            <label for="openType">打开方式</label>
+            <div class="row">
+              <div class="dropdown col-sm-4">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="openTypeBtn" data-toggle="dropdown">
+                  选择打开方式
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#" onClick="onOpenTypeBtn('只是个标题', 1)">只是个标题</a>
+                  <a class="dropdown-item" href="#" onClick="onOpenTypeBtn('浏览器打开', 1 << 1)">浏览器打开</a>
+                  <a class="dropdown-item" href="#" onClick="onOpenTypeBtn('瀑布流打开', 1 << 2)">瀑布流打开</a>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <input id="openType" type="text" class="form-control" name="openType" placeholder="Enter openType" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ext">额外信息</label>
+            <textarea class="form-control" name="ext" placeholder="Enter ext"></textarea>
+          </div>
+          <button type="reset" class="btn btn-secondary">重置</button>
+          <button type="button" class="btn btn-primary" onClick="onSubmit()" data-toggle="modal" data-target=".btns-modal-lg">提交</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <a href="../../">&lt; 返回首页</a>
+    <h1>APP首页AdZone管理</h1>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".btns-modal-lg">添加AdZone</button>
+    <div id="btns">
+      <div class="row">
+        <div class="col-sm">ID</div>
+        <div class="col-sm">名称</div>
+        <div class="col-sm-2">图片</div>
+        <div class="col-sm">排序</div>
+        <div class="col-sm">行</div>
+        <div class="col-sm">列</div>
+        <div class="col-sm">打开方式</div>
+        <div class="col-sm">额外信息</div>
+        <div class="col-sm-2">操作</div>
+      </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div id="favs">
+      <div class="row">
+        <div class="col-sm">FavoriteID</div>
+        <div class="col-sm">名称</div>
+        <div class="col-sm">类型</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../js/popper.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../util.js"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>

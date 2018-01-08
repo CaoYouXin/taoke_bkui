@@ -2,16 +2,33 @@
   padding: 1em;
 }
 
-#users > .row + .row, #orders > .row + .row {
+#users>.row+.row, #orders>.row+.row {
   border-top: solid 1px #ddd;
 }
 
-#users > .row, #orders > .row {
+#users>.row, #orders>.row {
   height: 3em;
   line-height: 3em;
 }
 
-#users > .row > div:nth-child(5):hover, #users > .row > div:nth-child(6):hover {
+#users>.row>div:nth-child(5):hover, #users>.row>div:nth-child(6):hover {
   box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+}
+
+.dropdown>button {
+  width: 100%;
+  height: 100%;
+}
+
+.row img {
+  width: 100%;
+}
+
+.form-group>button {
+  margin-top: 1em;
+}
+
+.form-group.hidden {
+  display: none;
 }
