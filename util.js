@@ -194,7 +194,8 @@ function get(api) {
       url: getAPI(api),
       type: 'GET',
       headers: {
-        'auth': ut.token.token
+        'auth': ut.token.token,
+        'platform': 'web'
       },
       contentType: 'application/json; charset=utf-8'
     }).fail(ajaxOnFail);
@@ -227,7 +228,8 @@ function post(api, data) {
       url: getAPI(api),
       type: 'POST',
       headers: {
-        'auth': ut.token.token
+        'auth': ut.token.token,
+        'platform': 'web'
       },
       contentType: 'application/json; charset=utf-8',
       data: JSON.stringify(data)

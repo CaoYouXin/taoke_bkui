@@ -11,12 +11,12 @@ var handlers = [{
 var renders = [
   null, null, {
     innerHTML: renderImgUrl
-  }, null, null, null, {
+  }, null, null, null, null, {
     innerHTML: renderOpenType
   }, null
 ];
 
-var colNames = ["id", "name", "imgUrl", "order", "rowSpan", "colSpan", "openType", "ext"];
+var colNames = ["id", "name", "imgUrl", "order", "iosOrder", "rowSpan", "colSpan", "openType", "ext"];
 
 function openFileUploader() {
   var fileUploader = document.getElementById('fileUploader');
@@ -63,7 +63,7 @@ function onSubmit() {
 
 function renderOne(isNew, data) {
   var tableTitle = table.firstElementChild;
-  var rowElem = buildRowWithTitleWidth(handlers, data, tableTitle, colNames, renders, 'col-sm-2');
+  var rowElem = buildRowWithTitleWidth(handlers, data, tableTitle, colNames, renders, 'col-sm-3');
 
   if (!isNew) {
     table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
@@ -106,7 +106,7 @@ function renderAll(data) {
   table.appendChild(tableTitle);
 
   data.forEach(function (rowData) {
-    var rowElem = buildRowWithTitleWidth(handlers, rowData, tableTitle, colNames, renders, 'col-sm-2');
+    var rowElem = buildRowWithTitleWidth(handlers, rowData, tableTitle, colNames, renders, 'col-sm-3');
     table.appendChild(rowElem);
   });
 }
