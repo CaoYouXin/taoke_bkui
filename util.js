@@ -195,7 +195,7 @@ function get(api) {
       type: 'GET',
       headers: {
         'auth': ut.token.token,
-        // 'platform': 'web'
+        'platform': 'web'
       },
       contentType: 'application/json; charset=utf-8'
     }).fail(ajaxOnFail);
@@ -229,7 +229,7 @@ function post(api, data) {
       type: 'POST',
       headers: {
         'auth': ut.token.token,
-        // 'platform': 'web'
+        'platform': 'web'
       },
       contentType: 'application/json; charset=utf-8',
       data: JSON.stringify(data)
