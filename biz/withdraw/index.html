@@ -77,6 +77,20 @@
   <div class="container">
     <a href="../../">&lt; 返回首页</a>
     <h1>提现监控</h1>
+    <div class="btn-group" role="group" id="topCates">
+      <button type="button" class="btn btn-secondary" data-rel="1" onClick="onTopCateClicked(event, true)">全部</button>
+      <button type="button" class="btn btn-secondary" data-rel="2" onClick="onTopCateClicked(event, true)">已付</button>
+      <button type="button" class="btn btn-secondary" data-rel="3" onClick="onTopCateClicked(event, true)">未付</button>
+    </div>
+    <section class="clearfix">
+      <div class="btn-group float-left" role="group">
+        <button type="button" class="btn btn-light" onClick="onFirstPageClicked()">|&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onPreviousPageClicked()">&lt;</button>
+        <button type="button" class="btn btn-light" onClick="onNextPageClicked()">&gt;</button>
+        <button type="button" class="btn btn-light" onClick="onLastPageClicked()">&gt;|</button>
+      </div>
+      <span class="badge badge-info float-right"></span>
+    </section>
     <div id="table">
       <div class="row">
         <div class="col-sm">ID</div>
