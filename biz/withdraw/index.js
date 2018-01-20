@@ -1,5 +1,16 @@
 var params = {};
 
+function exportAll() {
+  download(`/export/withdraw/list/${params.type}`);
+}
+
+function exportSearch() {
+  if (!params.search) {
+    return;
+  }
+  download(`/export/withdraw/search/${params.search}`);
+}
+
 function loadTable(page, type, search) {
   params.page = page;
   params.type = type;
@@ -8,6 +19,7 @@ function loadTable(page, type, search) {
       get(`/tbk/withdraw/request/list/${type}/${page}`).done(responseMapper(renderAll));
       break;
     case '4':
+      params.search = search;
       if (!search) {
         renderAll({
           totalElements: 0,
