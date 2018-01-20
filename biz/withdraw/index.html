@@ -81,14 +81,35 @@
       <button type="button" class="btn btn-secondary" data-rel="1" onClick="onTopCateClicked(event, true)">全部</button>
       <button type="button" class="btn btn-secondary" data-rel="2" onClick="onTopCateClicked(event, true)">已付</button>
       <button type="button" class="btn btn-secondary" data-rel="3" onClick="onTopCateClicked(event, true)">未付</button>
+      <button type="button" class="btn btn-secondary" data-rel="4" onClick="onTopCateClicked(event, true)">搜索</button>
     </div>
-    <section class="clearfix">
+    <hr>
+    <section class="clearfix" data-rel="1 2 3">
       <div class="btn-group float-left" role="group">
         <button type="button" class="btn btn-light" onClick="onFirstPageClicked()">|&lt;</button>
         <button type="button" class="btn btn-light" onClick="onPreviousPageClicked()">&lt;</button>
         <button type="button" class="btn btn-light" onClick="onNextPageClicked()">&gt;</button>
         <button type="button" class="btn btn-light" onClick="onLastPageClicked()">&gt;|</button>
       </div>
+      <button type="button" class="btn btn-dark float-right" onClick="exportAll()">导出Excel</button>
+      <span class="badge badge-info float-right"></span>
+    </section>
+    <section class="clearfix" data-rel="4">
+      <div class="btn-group float-left" role="group">
+        <button type="button" class="btn btn-light">|&lt;</button>
+        <button type="button" class="btn btn-light">&lt;</button>
+        <button type="button" class="btn btn-light">&gt;</button>
+        <button type="button" class="btn btn-light">&gt;|</button>
+      </div>
+      <div class="col-sm-4 float-left">
+        <div class="input-group">
+          <input id="searchTextId" type="text" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+            <button class="btn btn-warning" type="button" onClick="searchText()">Go!</button>
+          </span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-dark float-right" onClick="exportSearch()">导出Excel</button>
       <span class="badge badge-info float-right"></span>
     </section>
     <div id="table">

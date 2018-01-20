@@ -1,25 +1,48 @@
 var params = {};
 
-function loadTable(page, type) {
+function loadTable(page, type, search) {
   params.page = page;
   params.type = type;
-  get(`/tbk/withdraw/request/list/${type}/${page}`).done(responseMapper(renderAll));
+  switch (params.dataRel) {
+    case '1': case '2': case '3':
+      get(`/tbk/withdraw/request/list/${type}/${page}`).done(responseMapper(renderAll));
+      break;
+    case '4':
+      if (!search) {
+        renderAll({
+          totalElements: 0,
+          content: [],
+          first: true,
+          last: true,
+          totalPages: 0
+        });
+      } else {
+        get(`/tbk/withdraw/request/search/${search}`).done(responseMapper(renderAll));
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+function searchText() {
+  loadTable(1, params.type, $("#searchTextId").val());
 }
 
 function onFirstPageClicked() {
-  loadTable(1, params.type);
+  loadTable(1, params.type, params.search);
 }
 
 function onLastPageClicked() {
-  loadTable(params.total, params.type);
+  loadTable(params.total, params.type, params.search);
 }
 
 function onPreviousPageClicked() {
-  loadTable(Number(params.page) - 1, params.type);
+  loadTable(Number(params.page) - 1, params.type, params.search);
 }
 
 function onNextPageClicked() {
-  loadTable(Number(params.page) + 1, params.type);
+  loadTable(Number(params.page) + 1, params.type, params.search);
 }
 
 function onTopCateClicked(e, load) {
@@ -33,8 +56,13 @@ function onTopCateClicked(e, load) {
   e.target.classList.remove('btn-secondary');
   e.target.classList.add('btn-primary');
 
+  var dataRel = e.target.getAttribute('data-rel');
+  $('section').addClass('d-none');
+  $(`section[data-rel~=${dataRel}]`).removeClass('d-none');
+
   if (load) {
-    loadTable(1, e.target.getAttribute('data-rel'));
+    params = { dataRel: dataRel };
+    loadTable(1, e.target.getAttribute('data-rel'), '');
   }
 }
 
@@ -138,7 +166,7 @@ function renderAll(page) {
     );
     console.log('refresh from url hash: ', params);
     onTopCateClicked({ target: $(`#topCates > button[data-rel=${params.type}]`)[0] }, false);
-    loadTable(params.page, params.type);
+    loadTable(params.page, params.type, params.search);
   } else {
     onTopCateClicked({ target: $("#topCates > button")[0] }, true);
   }
