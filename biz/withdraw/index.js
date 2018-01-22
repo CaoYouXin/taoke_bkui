@@ -104,11 +104,13 @@ function renderOne(isNew, data) {
 
   var renders = [null, {
     innerHTML: renderUser
-  }, null, null, {
+  }, {
+      innerHTML: renderAliPay
+    }, null, null, {
       innerHTML: renderPayed
     }];
 
-  var rowElem = buildRow(handlers, data, ["id", "user", "amount", "createTime", "payed", "payTime"], renders);
+  var rowElem = buildRow(handlers, data, ["id", "user", "user", "amount", "createTime", "payed", "payTime"], renders);
 
   if (!isNew) {
     table.replaceChild(rowElem, findOne(table, 0, data.id + ''));
@@ -119,6 +121,10 @@ function renderOne(isNew, data) {
 
 function renderUser(user) {
   return `${user.name}(${user.realName})`;
+}
+
+function renderAliPay(user) {
+  return `${user.aliPayId}`;
 }
 
 function renderPayed(payed) {
@@ -138,12 +144,14 @@ function renderAll(page) {
 
   var renders = [null, {
     innerHTML: renderUser
-  }, null, null, {
+  }, {
+      innerHTML: renderAliPay
+    }, null, null, {
       innerHTML: renderPayed
     }];
 
   page.content.forEach(function (rowData) {
-    var rowElem = buildRow(handlers, rowData, ["id", "user", "amount", "createTime", "payed", "payTime"], renders);
+    var rowElem = buildRow(handlers, rowData, ["id", "user", "user", "amount", "createTime", "payed", "payTime"], renders);
     table.appendChild(rowElem);
   });
 
