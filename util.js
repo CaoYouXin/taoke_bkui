@@ -260,9 +260,14 @@ function upload($form) {
 }
 
 function findOne(table, idx, keyData) {
+  let isFunc = typeof idx === 'function';
   for (var i = 0; i < table.childElementCount; i++) {
     var row = table.childNodes[i];
-    if (row.childNodes[idx].innerHTML === keyData) {
+    if (isFunc) {
+      if (idx(row) === keyData) {
+        return row;
+      }
+    } else if (row.childNodes[idx].innerHTML === keyData) {
       return row;
     }
   }

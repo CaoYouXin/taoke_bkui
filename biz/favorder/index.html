@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>选品组默认排序管理 - 觅券儿系统后台</title>
+
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .selected-fav-item,
+    .unselected-fav-item,
+    .fav {
+      padding: 5px;
+      overflow: hidden;
+      user-select: none;
+      cursor: pointer;
+      height: fit-content;
+    }
+
+    .selected-fav-item>div,
+    .unselected-fav-item>div,
+    .fav>div {
+      border: solid 1px #ddd;
+      border-radius: 5px;
+      width: 100%;
+      height: auto;
+      transition: box-shadow 0.382s, border-color 1s;
+    }
+
+    .selected-fav-item>div:hover,
+    .unselected-fav-item>div:hover,
+    .fav>div:hover {
+      border-color: bisque;
+      box-shadow: 0 0 10px burlywood;
+      background-color: #f8f8f8
+    }
+
+    .fav>div>h3,
+    .fav>div>div {
+      text-align: center;
+    }
+
+    .selection {
+      margin: 0 5px;
+      height: 30vh;
+      border-top: solid 1px #ccc;
+      border-bottom: solid 1px #ccc;
+      border-radius: 5px;
+      overflow-y: auto;
+    }
+
+    .selected-fav-item>.card>.card-body>.btn-group>.btn {
+      font-size: 0.5rem;
+    }
+
+    #table-form>button {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="modal fade table-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="table-form">
+          <div class="form-group">
+            <label for="id">ID</label>
+            <div class="row">
+              <div class="col">
+                <input id="favId" type="text" class="form-control" name="id" placeholder="Input Not Allowed" disabled />
+              </div>
+              <div class="col">
+                <input id="favTitle" type="text" class="form-control" placeholder="Input Not Allowed" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>已选</label>
+            <div id="selected" class="row selection"></div>
+          </div>
+          <div class="form-group">
+            <label>未选</label>
+            <div id="unselected" class="row selection"></div>
+          </div>
+          <button type="button" class="btn btn-primary" onClick="onSubmit()" data-toggle="modal" data-target=".table-modal-lg">提交</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <a href="../../">&lt; 返回首页</a>
+    <h1>选品组默认排序管理</h1>
+    <div id="table" class="row">
+    </div>
+  </div>
+
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../js/popper.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../util.js"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
