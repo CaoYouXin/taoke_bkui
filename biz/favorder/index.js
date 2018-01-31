@@ -65,6 +65,8 @@ function favClicked(datum) {
   let favIdNum = datum['favoritesId'];
   $(favId).val(favIdNum);
   $(favTitle).val(datum['favoritesTitle']);
+  selected.innerHTML = '';
+  unselected.innerHTML = '';
   get(`/tbk/fav/${favIdNum}/list/all`).done(responseMapper(renderFavItems));
   $('.table-modal-lg').modal({ show: true });
 }
@@ -72,8 +74,6 @@ function favClicked(datum) {
 function renderFavItems(data) {
   let orders = data['orders'];
   let items = data['items'];
-  selected.innerHTML = '';
-  unselected.innerHTML = '';
   items.forEach(function (item) {
     let isSelected = orders.some(function (numIid) {
       return item['numIid'] === numIid;
