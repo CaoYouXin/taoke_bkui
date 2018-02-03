@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+  <title>帮助文档管理 - 觅券儿系统后台</title>
+
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/github-markdown.css">
+  <link rel="stylesheet" href="../../css/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .table-responsive {
+      height: 86vh;
+    }
+
+    .mCSB_container {
+      min-height: 85vh;
+    }
+
+    .selection {
+      margin: 0 5px;
+      height: 30vh;
+      border-top: solid 1px #ccc;
+      border-bottom: solid 1px #ccc;
+      border-radius: 5px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="modal fade table-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="table-form">
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <label for="id">ID</label>
+                <input type="text" class="form-control" name="id" placeholder="Input Not Allowed" disabled />
+              </div>
+              <div class="col">
+                <label for="order">顺序(大的在前)</label>
+                <input type="number" class="form-control" name="order" placeholder="Enter Order" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>预览</label>
+            <div id="preview" class="selection markdown-body"></div>
+          </div>
+          <div class="form-group">
+            <label>编辑</label>
+            <div id="editor" class="row selection"></div>
+          </div>
+          <button type="button" class="btn btn-primary" onClick="onSubmit()" data-toggle="modal" data-target=".table-modal-lg">提交</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <a href="../../">&lt; 返回首页</a>
+    <h1>帮助文档管理
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".table-modal-lg">新建帮助文档</button>
+    </h1>
+    <div class="table-responsive">
+      <table class="table table-hover table-light table-striped">
+        <caption>在役帮助文档</caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">文档标题</th>
+            <th scope="col">文档路径</th>
+            <th scope="col">文档序列</th>
+            <th scope="col">Handles</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="../../js/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../js/showdown.1.7.2.min.js"></script>
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="../../js/popper.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../util.js"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
