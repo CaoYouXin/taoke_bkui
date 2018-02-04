@@ -132,6 +132,44 @@ function buildRowFromArray(handlers, data, array, specs, handlerWidth) {
   return row;
 }
 
+function buildTableRow(datum, colNames, renders, handles) {
+  let tr = document.createElement('TR');
+
+  for (var i = 0; i < colNames.length; i++) {
+    var td = document.createElement('TD');
+    td.innerHTML = !!renders[i] ? renders[i](datum[colNames[i]]) : datum[colNames[i]];
+    tr.appendChild(td);
+  }
+
+  if (!handles) {
+    return tr;
+  }
+
+  let lastTd = document.createElement('TD');
+  tr.appendChild(lastTd);
+
+  let handlerG = document.createElement('div');
+  handlerG.classList.add('btn-group');
+  handlerG.setAttribute('role', 'group');
+  lastTd.appendChild(handlerG);
+
+  handles.forEach((handle) => {
+    var handler = document.createElement('button');
+    handler.classList.add('btn');
+    handler.classList.add('btn-sm');
+    handler.classList.add(handle.cls || 'btn-primary');
+    handler.setAttribute('type', 'button');
+    handler.onclick = (e) => {
+      handle.handler(e, datum);
+    };
+    handler.innerHTML = handle.text;
+
+    handlerG.appendChild(handler);
+  });
+
+  return tr;
+}
+
 function ajaxOnFail(error) {
   if (401 === error.status) {
     console.log("http level not authed");
@@ -261,8 +299,8 @@ function upload($form) {
 
 function findOne(table, idx, keyData) {
   let isFunc = typeof idx === 'function';
-  for (var i = 0; i < table.childElementCount; i++) {
-    var row = table.childNodes[i];
+  var row = table.firstElementChild;
+  while (!!row) {
     if (isFunc) {
       if (idx(row) === keyData) {
         return row;
@@ -270,6 +308,37 @@ function findOne(table, idx, keyData) {
     } else if (row.childNodes[idx].innerHTML === keyData) {
       return row;
     }
+    row = row.nextElementSibling;
   }
   return null;
+}
+
+function copyText(text) {
+  function selectElementText(element) {
+    if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(element);
+      range.select();
+    } else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNode(element);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    }
+  }
+  var element = document.createElement('DIV');
+  element.textContent = text;
+  document.body.appendChild(element);
+  selectElementText(element);
+  document.execCommand('copy');
+  element.remove();
+}
+
+function lastIndexOfChar(str, char) {
+  for (var i = str.length - 1; i >= 0; i--) {
+    if (str.charAt(i) == char) {
+      return i;
+    }
+  }
+  return -1;
 }

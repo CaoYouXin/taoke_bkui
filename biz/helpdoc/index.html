@@ -12,26 +12,40 @@
   <link rel="stylesheet" href="../../css/jquery.mCustomScrollbar.min.css">
   <link rel="stylesheet" href="../../css/style.css">
   <style>
-    .table-responsive {
+    /* .table-responsive {
       height: 86vh;
     }
 
     .mCSB_container {
       min-height: 85vh;
-    }
+    } */
 
     .selection {
-      margin: 0 5px;
-      height: 30vh;
+      height: 28vh;
       border-top: solid 1px #ccc;
       border-bottom: solid 1px #ccc;
       border-radius: 5px;
       overflow-y: auto;
     }
+
+    .custom-code-btn {
+      width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .custom-code-btn,
+    .custom-copy-btn {
+      border-color: #ced4da;
+    }
   </style>
 </head>
 
 <body>
+  <form id="uploader">
+    <input id="fileUploader" type="file" name="uploadFiles" accept="image/*" onChange="onFileUploaderChange()" hidden />
+  </form>
   <div class="modal fade table-modal-lg" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -41,6 +55,18 @@
               <div class="col">
                 <label for="id">ID</label>
                 <input type="text" class="form-control" name="id" placeholder="Input Not Allowed" disabled />
+              </div>
+              <div class="col">
+                <label for="fileName">文件名</label>
+                <input type="text" class="form-control" name="fileName" placeholder="Input Not Allowed" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <label for="title">标题</label>
+                <input type="text" class="form-control" name="title" placeholder="Enter Title" />
               </div>
               <div class="col">
                 <label for="order">顺序(大的在前)</label>
@@ -54,9 +80,22 @@
           </div>
           <div class="form-group">
             <label>编辑</label>
-            <div id="editor" class="row selection"></div>
+            <div id="editor" class="selection"></div>
           </div>
-          <button type="button" class="btn btn-primary" onClick="onSubmit()" data-toggle="modal" data-target=".table-modal-lg">提交</button>
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <button type="reset" class="btn btn-secondary">重置</button>
+                <button type="button" class="btn btn-primary" onClick="onSubmit()" data-toggle="modal" data-target=".table-modal-lg">提交</button>
+              </div>
+              <div class="col-8">
+                <div class="btn-group float-right" role="group">
+                  <button id="customFileLabel" type="button" class="btn btn-light custom-code-btn" onClick="openFileUploader()">点击选择图片</button>
+                  <button type="button" class="btn btn-light custom-copy-btn" onClick="onCopy(event)" data-placement="top" title="代码已复制">复制代码</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </div>
@@ -79,8 +118,7 @@
             <th scope="col">Handles</th>
           </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody id="table"></tbody>
       </table>
     </div>
   </div>
