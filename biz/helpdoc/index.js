@@ -120,6 +120,7 @@ $('.table-modal-lg').on('hidden.bs.modal', (e) => {
 
 (() => {
   get('/blog/helpdoc/list').done(responseMapper((data) => {
+    table.innerHTML = "";
     data.forEach((datum) => {
       table.appendChild(buildTableRow(datum, colNames, [], handles));
     });

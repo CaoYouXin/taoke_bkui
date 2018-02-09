@@ -10,41 +10,8 @@
   <link rel="stylesheet" href="../../css/bootstrap.min.css">
   <link rel="stylesheet" href="../../css/style.css">
   <style>
-    .row>.col-sm {
-      overflow: hidden;
-    }
-
-    .row>.col-sm>img {
-      width: 100%;
-    }
-
-    #table {
-      margin-top: 1em;
-    }
-
-    #table>.row {
-      line-height: 2em;
-    }
-
-    #table>.row:first-child {
-      border-bottom: solid 1px #282828;
-    }
-
-    #table>.row:not(:first-child) {
-      line-height: 3em;
-      border-bottom: dashed 1px #282828;
-    }
-
-    #table>.row .btn {
-      padding: 0 1em;
-    }
-
-    .form-group>button {
-      margin-top: 1em;
-    }
-
-    .form-group.hidden {
-      display: none;
+    .d-flex>h1 {
+      margin-bottom: 0;
     }
   </style>
 </head>
@@ -52,13 +19,30 @@
 <body>
   <div class="container">
     <a href="../../">&lt; 返回首页</a>
-    <h1>用户反馈阅读</h1>
-    <div id="table">
-      <div class="row">
-        <div class="col-sm">ID</div>
-        <div class="col-sm">标题</div>
-        <div class="col-sm">内容</div>
+    <div class="d-flex mb-2">
+      <h1 class="align-self-start">用户反馈阅读</h1>
+      <div class="ml-auto align-self-end">
+        <span class="badge badge-dark"></span>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-dark" onClick="onFirstPageClicked()">|&lt;</button>
+          <button type="button" class="btn btn-dark" onClick="onPreviousPageClicked()">&lt;</button>
+          <button type="button" class="btn btn-dark" onClick="onNextPageClicked()">&gt;</button>
+          <button type="button" class="btn btn-dark" onClick="onLastPageClicked()">&gt;|</button>
+        </div>
       </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-light table-striped">
+        <caption>反馈如此珍贵</caption>
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">用户标识</th>
+            <th scope="col">Handles</th>
+          </tr>
+        </thead>
+        <tbody id="table"></tbody>
+      </table>
     </div>
   </div>
 
