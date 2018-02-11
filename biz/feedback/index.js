@@ -35,7 +35,6 @@ function onNextPageClicked() {
 }
 
 function goToFeedback(e, datum) {
-  console.log(e, datum);
   window.open(getAPI(`/blog/${datum.path.replace(/\//g, '&@&')}//${getCDN('').replace(/\//g, '&@&')}`));
 }
 
@@ -47,7 +46,7 @@ function renderAll(paged) {
 
   $(`.badge`).html(`共${paged.totalElements}个`);
 
-  $.each($(`.btn-group > button`), (i, $page) => {
+  $.each($(`#nav > button`), (i, $page) => {
     if (i <= 1) {
       if (paged.first) {
         $page.setAttribute('disabled', true);
