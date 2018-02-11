@@ -35,6 +35,7 @@ function onNextPageClicked() {
 }
 
 function goToFeedback(e, datum) {
+  console.log(e, datum);
   window.open(getAPI(`/blog/${datum.path.replace(/\//g, '&@&')}//${getCDN('').replace(/\//g, '&@&')}`));
 }
 
