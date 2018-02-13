@@ -1,8 +1,10 @@
 let table = document.getElementById('table');
+let typeValue = document.getElementById('typeValue');
 let preview = document.getElementById('preview');
 let fileUploader = document.getElementById('fileUploader');
 let customFileLabel = document.getElementById('customFileLabel');
-let colNames = ['id', 'title', 'path', 'order'];
+let colNames = ['id', 'title', 'path', 'type', 'order'];
+let renders = [null, null, null, renderType, null];
 let handles = [{
   text: '修改',
   cls: 'btn-primary',
@@ -27,6 +29,28 @@ let editor = ace.edit("editor");
 // editor.setTheme("ace/theme/monokai");
 // editor.session.setMode("ace/mode/markdown");
 let converter = new showdown.Converter({ tables: true });
+
+function onTypeBtn(datum) {
+  $(typeValue).val(datum);
+}
+
+function renderType(datum) {
+  switch (datum) {
+    case 1:
+      return '平台候选人';
+    case 2:
+      return '普通候选人';
+    case 3:
+      return '普通消费者';
+    case 4:
+      return '平台合伙人';
+    case 5:
+      return '普通合伙人';
+    case 0:
+    default:
+      return '未分配';
+  }
+}
 
 function onDelete(e, datum) {
   get(`/blog/helpdoc/del/${datum.id}`).done(responseMapper(() => {
@@ -84,13 +108,18 @@ function onSubmit() {
   } else {
     submitData.order = Number(submitData.order);
   }
+  if (!submitData.type) {
+    submitData.type = 0;
+  } else {
+    submitData.type = Number(submitData.type);
+  }
   if (!submitData.fileName) {
     submitData.fileName = Date.now() + '';
   }
   submitData.content = `---\ntitle: ${submitData.title}\n---\n` + editor.getValue();
 
   post('/blog/helpdoc/post', submitData).done(responseMapper((data) => {
-    let tr = buildTableRow(data, colNames, [], handles);
+    let tr = buildTableRow(data, colNames, renders, handles);
     if (!submitData.id) {
       table.appendChild(tr);
     } else {
@@ -122,7 +151,7 @@ $('.table-modal-lg').on('hidden.bs.modal', (e) => {
   get('/blog/helpdoc/list').done(responseMapper((data) => {
     table.innerHTML = "";
     data.forEach((datum) => {
-      table.appendChild(buildTableRow(datum, colNames, [], handles));
+      table.appendChild(buildTableRow(datum, colNames, renders, handles));
     });
   }));
 })();

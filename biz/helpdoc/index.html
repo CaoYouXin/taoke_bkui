@@ -12,16 +12,8 @@
   <link rel="stylesheet" href="../../css/jquery.mCustomScrollbar.min.css">
   <link rel="stylesheet" href="../../css/style.css">
   <style>
-    /* .table-responsive {
-      height: 86vh;
-    }
-
-    .mCSB_container {
-      min-height: 85vh;
-    } */
-
     .selection {
-      height: 28vh;
+      height: 36vh;
       border-top: solid 1px #ccc;
       border-bottom: solid 1px #ccc;
       border-radius: 5px;
@@ -75,6 +67,29 @@
             </div>
           </div>
           <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <label for="type">选择类型</label>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                    选择类型
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" onClick="onTypeBtn(1)">平台候选人</a>
+                    <a class="dropdown-item" href="#" onClick="onTypeBtn(2)">普通候选人</a>
+                    <a class="dropdown-item" href="#" onClick="onTypeBtn(3)">普通消费者</a>
+                    <a class="dropdown-item" href="#" onClick="onTypeBtn(4)">平台合伙人</a>
+                    <a class="dropdown-item" href="#" onClick="onTypeBtn(5)">普通合伙人</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <label for="type">类型值</label>
+                <input id="typeValue" type="number" class="form-control" name="type" placeholder="Input Not Allowed" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
             <label>预览</label>
             <div id="preview" class="selection markdown-body"></div>
           </div>
@@ -114,6 +129,7 @@
             <th scope="col">#</th>
             <th scope="col">文档标题</th>
             <th scope="col">文档路径</th>
+            <th scope="col">文档类型</th>
             <th scope="col">文档序列</th>
             <th scope="col">Handles</th>
           </tr>
